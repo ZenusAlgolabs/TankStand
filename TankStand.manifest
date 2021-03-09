@@ -1,0 +1,12 @@
+{
+	"autodeskProduct":	"Fusion360",
+	"type":	"script",
+	"author":	"Michael Gachanja",
+	"description":	{
+		"":	"Tool to create tank stand template given only the head and capacity"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true,
+	"sourcewindows":	"TankStand.vcxproj",
+	"sourcemac":	"TankStand.xcodeproj"
+}

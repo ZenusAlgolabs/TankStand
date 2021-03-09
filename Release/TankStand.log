@@ -1,0 +1,12 @@
+﻿  TankStand.cpp
+     Creating library C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.lib and object C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.exp
+  Generating code
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(100): warning C4715: 'drawComponent': not all control paths return a value
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(172): warning C4715: 'drawTankStand': not all control paths return a value
+  94 of 719 functions (13.1%) were compiled, the rest were copied from previous compilation.
+    89 functions were new in current compilation
+    14 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  TankStand.vcxproj -> C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.dll
+  C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.dll
+  1 File(s) copied
