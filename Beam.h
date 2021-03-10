@@ -42,32 +42,50 @@ bool createSketch()
 		return false;
 }
 
-bool drawComponent()
+	//Draw a rectangular beam
+bool drawRectangleBeam()
 {
-	// Draw a circle.
-	/*Ptr<SketchCurves> sketchCurves = sketch->sketchCurves();
-	if (!sketchCurves)
-		return false;
-	Ptr<SketchCircles> circles = sketchCurves->sketchCircles();
-	if (!circles)
-		return false;
-	Ptr<Point3D> centerPoint = Point3D::create(0, 0, 0);
-	if (!centerPoint)
-		return false;
-	Ptr<SketchCircle> circle1 = circles->addByCenterRadius(centerPoint, 2);
-	if (!circle1)
-		return false;*/
-
-	//Draw a rectangle
-			// Draw two connected lines.
+	// Draw two connected lines.
 	Ptr<SketchCurves> sketchCurves = sketch->sketchCurves();
 	if (!sketchCurves)
 		return false;
 	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
 	if (!sketchLines)
 		return false;
-	// Draw a rectangle by two points.
-	Ptr<SketchLineList> innerRectangle = sketchLines->addTwoPointRectangle(Point3D::create(3, 0, 0), Point3D::create(7, 2, 0));
+
+	// Draw outer rectangle by two points.
+	Ptr<SketchLineList> outerRectangle = sketchLines->addTwoPointRectangle(Point3D::create(1, 1, 0), Point3D::create(4, 5, 0));
+	if (!outerRectangle)
+		return false;
+
+	// Use the returned lines to add some constraints.
+	Ptr<GeometricConstraints> outerRectangle_constraints = sketch->geometricConstraints();
+	if (!outerRectangle_constraints)
+		return false;
+
+	Ptr<HorizontalConstraint> outerRectangle_HConstraint = outerRectangle_constraints->addHorizontal(outerRectangle->item(0));
+	if (!outerRectangle_HConstraint)
+		return false;
+	outerRectangle_HConstraint = outerRectangle_constraints->addHorizontal(outerRectangle->item(2));
+	if (!outerRectangle_HConstraint)
+		return false;
+
+	Ptr<VerticalConstraint> outerRectangle_VConstraint = outerRectangle_constraints->addVertical(outerRectangle->item(1));
+	if (!outerRectangle_VConstraint)
+		return false;
+	outerRectangle_VConstraint = outerRectangle_constraints->addVertical(outerRectangle->item(3));
+	if (!outerRectangle_VConstraint)
+		return false;
+
+	Ptr<SketchDimensions> outerRectangle_sketchDimensions = sketch->sketchDimensions();
+	if (!outerRectangle_sketchDimensions)
+		return false;
+	Ptr<SketchDimension> outerRectangle_sketchDimension = outerRectangle_sketchDimensions->addDistanceDimension(outerRectangle->item(0)->startSketchPoint(), outerRectangle->item(0)->endSketchPoint(), HorizontalDimensionOrientation, Point3D::create(5.5, -1, 0));
+	if (!outerRectangle_sketchDimension)
+		return false;
+
+	// Draw inner rectangle by two points.
+	Ptr<SketchLineList> innerRectangle = sketchLines->addTwoPointRectangle(Point3D::create(2, 2, 0), Point3D::create(3, 4, 0));
 	if (!innerRectangle)
 		return false;
 
@@ -95,6 +113,36 @@ bool drawComponent()
 		return false;
 	Ptr<SketchDimension> innerRectangle_sketchDimension = innerRectangle_sketchDimensions->addDistanceDimension(innerRectangle->item(0)->startSketchPoint(), innerRectangle->item(0)->endSketchPoint(), HorizontalDimensionOrientation, Point3D::create(5.5, -1, 0));
 	if (!innerRectangle_sketchDimension)
+		return false;
+
+// Draw two connected lines.
+}
+
+bool drawLBeam()
+{
+	Ptr<SketchCurves> sketchCurves = sketch->sketchCurves();
+	if (!sketchCurves)
+		return false;
+	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
+	if (!sketchLines)
+		return false;
+	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(Point3D::create(2, 1, 0), Point3D::create(2, 6, 0));
+	if (!line1)
+		return false;
+	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(), Point3D::create(6, 6, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(), Point3D::create(6, 4, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(), Point3D::create(4, 4, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(), Point3D::create(4, 1, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(), line1->startSketchPoint());
+	if (!line2)
 		return false;
 
 }
@@ -165,7 +213,8 @@ Ptr<Component> drawTankStand(Ptr<Design> design)
 	createConstructionPlane();
 	createSketch();
 
-	drawComponent();
+	//drawRectangleBeam();
+	drawLBeam();
 
 	getProfile();
 	extrudeComponent();
