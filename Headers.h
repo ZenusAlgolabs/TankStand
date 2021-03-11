@@ -93,6 +93,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <memory>
+#include <vector>
+#include <string>
 
 
 #if defined(_WINDOWS) || defined(_WIN32) || defined(_WIN64)

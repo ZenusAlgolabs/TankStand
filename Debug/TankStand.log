@@ -1,2 +1,5 @@
-﻿  TankStand.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(997,5): error MSB6006: "link.exe" exited with code 1.
+﻿  Calculations.cpp
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Calculations.cpp(7,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  EventHandler.cpp
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\EventHandler.cpp(174,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  Generating Code...

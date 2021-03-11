@@ -5,6 +5,9 @@
 #include "Headers.h"
 #include "Common.h"
 
+std::string material;
+std::string quality;
+
 void tankstand_Inputs_Panel(Ptr<Design> des, Ptr<CommandInputs> inputs)
 {
     std::string capacity = std::to_string(13 * 2.54);
@@ -32,6 +35,44 @@ void tankstand_Inputs_Panel(Ptr<Design> des, Ptr<CommandInputs> inputs)
     _tankHead = inputs->addValueInput("head", "Head", units, ValueInput::createByReal(std::stod(head)));
     if (!checkReturn(_tankHead))
         return;
+
+    _imgInput->isVisible(true);
+
+    _waterQuality = inputs->addDropDownCommandInput("waterQuality", "Quality", TextListDropDownStyle);
+    if (!checkReturn(_waterQuality))
+        return;
+
+    _structureMaterial = inputs->addDropDownCommandInput("structureMaterial", "Material", TextListDropDownStyle);
+    if (!checkReturn(_structureMaterial))
+        return;
+
+    if (quality == "Fresh")
+    {
+        _waterQuality->listItems()->add("Fresh", true);
+        _waterQuality->listItems()->add("Salty", false);
+    }
+    else
+    {
+        _waterQuality->listItems()->add("Fresh", false);
+        _waterQuality->listItems()->add("Salty", true);
+    }
+
+    if (material == "Aluminium")
+    {
+        _structureMaterial->listItems()->add("Aluminium", true);
+        _structureMaterial->listItems()->add("Steel", false);
+    }
+    else
+    {
+        _structureMaterial->listItems()->add("Aluminium", false);
+        _structureMaterial->listItems()->add("Steel", true);
+    }
+
+    _errMessage = inputs->addTextBoxCommandInput("errMessage", "", "", 2, true);
+    if (!checkReturn(_errMessage))
+        return;
+    _errMessage->isFullWidth(true);
+
 }
 
 bool getCommandInputValue(Ptr<CommandInput> commandInput, std::string unitType, double* value)
