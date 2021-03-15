@@ -1,13 +1,13 @@
 ﻿  TankStand.cpp
      Creating library C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.lib and object C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.exp
   Generating code
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(52): warning C4715: 'drawComponent1': not all control paths return a value
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(157): warning C4715: 'drawComponents': not all control paths return a value
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(127): warning C4715: 'drawComponent2': not all control paths return a value
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(207): warning C4715: 'drawTankStand': not all control paths return a value
-  596 of 1027 functions (58.0%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    103 functions had inline decision re-evaluated but remain unchanged
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(223): warning C4715: 'drawVBeam': not all control paths return a value
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(258): warning C4715: 'drawLBeam': not all control paths return a value
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(149): warning C4715: 'drawRBeam': not all control paths return a value
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(295): warning C4715: 'drawComponents': not all control paths return a value
+  60 of 1020 functions ( 5.9%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    16 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   TankStand.vcxproj -> C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.dll
   C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.dll

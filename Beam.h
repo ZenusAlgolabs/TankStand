@@ -6,178 +6,292 @@
 #include "Common.h"
 #include "Inputs.h"
 
-Ptr<Component> rootComp;
-Ptr<Occurrences> occs;
-Ptr<Matrix3D> transform;
-
-std::vector<Ptr<Occurrence>> subOccurrence;
-std::vector<Ptr<Component>> subComponent;
-std::vector<Ptr<Sketches>> sketches;
-std::vector<Ptr<Sketch>> sketch;
-std::vector<Ptr<SketchCurves>> sketchCurves;
-std::vector<Ptr<Profiles>> profiles;
-std::vector<Ptr<Profile>> profile;
-std::vector<Ptr<Features>> features;
-std::vector<Ptr<ExtrudeFeatures>> extrudeFeatures;
-std::vector<Ptr<ExtrudeFeatureInput>> extrudeFeatureInput;
-std::vector<Ptr<ValueInput>> extrusionDistance;
-std::vector<Ptr<ExtrudeFeature>> extrudeFeature;
-
-Ptr<Point3D> centerPoint;
-
-bool drawComponent1(int ID)
+bool extrudeComponent(int ID, double _extrusionLength)
 {
-	//Construction plane
-	Ptr<ConstructionPlane> xzPlane = rootComp->xZConstructionPlane();
-	if (!xzPlane)
-		return false;
-
-	sketch.push_back(sketches[ID]->add(xzPlane));
-	if (!sketch[ID])
-		return false;
-
-	//The Sketch
-	sketchCurves.push_back(sketch[ID]->sketchCurves());
-	if (!sketchCurves[ID])
-		return false;
-	Ptr<SketchCircles> sketchCircles0 = sketchCurves[ID]->sketchCircles();
-	if (!sketchCircles0)
-		return false;
-	centerPoint = Point3D::create(ID, 0, 0);
-	if (!centerPoint)
-		return false;
-	Ptr<SketchCircle> sketchCircle0 = sketchCircles0->addByCenterRadius(centerPoint, (2.5 + ID));
-	if (!sketchCircle0)
-		return false;
-}
-
-bool drawComponent2(int ID, Ptr<BRepFace> endFace)
-{
-	// Create a construction plane for extrude 2
-	Ptr<ConstructionPlanes> ctorPlanes = subComponent[0]->constructionPlanes();
-	if (!ctorPlanes)
-		return false;
-	Ptr<ConstructionPlaneInput> ctorPlaneInput = ctorPlanes->createInput();
-	if (!ctorPlaneInput)
-		return false;
-	ctorPlaneInput->setByOffset(endFace, adsk::core::ValueInput::createByString("0 mm"));
-	Ptr<ConstructionPlane> ctorPlane = ctorPlanes->add(ctorPlaneInput);
-	if (!ctorPlane)
-		return false;
-	Ptr<ConstructionPlane> ctorPlaneProxy = ctorPlane->createForAssemblyContext(subOccurrence[0]);
-	if (!ctorPlaneProxy)
-		return false;
-
-	// Create sub component 2 under root component
-	subOccurrence.push_back(occs->addNewComponent(transform));
-	if (!subOccurrence[1])
-		return false;
-
-	// Create sketch 2 in sub component 2
-	Ptr<Component> subComp1 = subOccurrence[1]->component();
-	if (!subComp1)
-		return false;
-	Ptr<Sketches> sketches1 = subComp1->sketches();
-	if (!sketches1)
-		return false;
-	Ptr<Sketch> sketch1 = sketches1->add(ctorPlaneProxy);
-	if (!sketch1)
-		return false;
-
-	Ptr<SketchCurves> sketchCurves1 = sketch1->sketchCurves();
-	if (!sketchCurves1)
-		return false;
-	Ptr<SketchCircles> sketchCircles1 = sketchCurves1->sketchCircles();
-	if (!sketchCircles1)
-		return false;
-	Ptr<SketchCircle> sketchCircle1 = sketchCircles1->addByCenterRadius(centerPoint, 0.5);
-	if (!sketchCircle1)
-		return false;
-
 	// Get the profile defined by the circle
-	Ptr<Profiles> profs1 = sketch1->profiles();
-	if (!profs1)
+	Ptr<Profiles> profiles = (sketch[ID]->profiles());
+	if (!profiles)
+	{
+		displayErrorMessage("profiles");
 		return false;
-	Ptr<Profile> profile1 = profs1->item(0);
-	if (!profile1)
+	}
+
+	Ptr<Profile> profile = (profiles->item(0));
+	if (!profile)
+	{
+		displayErrorMessage(std::to_string(ID) + " profile");
 		return false;
+	}
 
 	// Create an extrude input
-	Ptr<Features> feats1 = subComp1->features();
-	if (!feats1)
+	Ptr<Features> features = (subComponent[ID]->features());
+	if (!features)
+	{
+		displayErrorMessage("features");
 		return false;
-	Ptr<ExtrudeFeatures> extrudes1 = feats1->extrudeFeatures();
-	if (!extrudes1)
+	}
+
+	Ptr<ExtrudeFeatures> extrudeFeatures = (features->extrudeFeatures());
+	if (!extrudeFeatures)
+	{
+		displayErrorMessage("extrude features");
 		return false;
-	Ptr<ExtrudeFeatureInput> extInput1 = extrudes1->createInput(profile1, FeatureOperations::NewBodyFeatureOperation);
-	if (!extInput1)
+	}
+
+	Ptr<ExtrudeFeatureInput> extrudeFeatureInput = (extrudeFeatures->createInput(profile, FeatureOperations::NewBodyFeatureOperation));
+	if (!extrudeFeatureInput)
+	{
+		displayErrorMessage(std::to_string(ID) + "ex-features input");
 		return false;
+	}
 
 	// Set the extrude input
-	Ptr<ValueInput> distance1 = ValueInput::createByString("50 mm");
-	if (!distance1)
+	Ptr<ValueInput> extrusionDistance = (ValueInput::createByString(std::to_string(_extrusionLength) + " mm"));
+	if (!extrusionDistance)
+	{
+		displayErrorMessage("ex-distance");
 		return false;
-	extInput1->setDistanceExtent(false, distance1);
-	extInput1->isSolid(false);
+	}
+
+	extrudeFeatureInput->setDistanceExtent(false, extrusionDistance);
+	extrudeFeatureInput->isSolid(true);
 
 	// Create the extrude
-	Ptr<ExtrudeFeature> extrude1 = extrudes1->add(extInput1);
-	if (!extrude1)
+	extrudeFeature.push_back(extrudeFeatures->add(extrudeFeatureInput));
+	if (!extrudeFeature[ID])
+	{
+		displayErrorMessage("feature");
+		return false;
+	}
+
+}
+
+bool drawRBeam(int ID)
+{
+	getConstructionPlane(ID);
+
+	if (ID == 0)
+	{
+		sketch.push_back(sketches[ID]->add(constructionPlane));
+		if (!sketch[ID])
+			return false;
+	}
+	else
+	{
+		getSubOccurrence(ID);
+	}
+
+	// Draw two connected lines. 
+	Ptr<SketchCurves> sketchCurves = (sketch[ID]->sketchCurves());
+	if (!sketchCurves)
+		return false;
+	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
+	if (!sketchLines)
+		return false;
+
+	// Draw outer rectangle by two points. 
+	Ptr<SketchLineList> outerRectangle = sketchLines->addTwoPointRectangle(Point3D::create((7), (7), 0), Point3D::create((10), (4), 0));
+	if (!outerRectangle)
+		return false;
+
+	// Use the returned lines to add some constraints. 
+	Ptr<GeometricConstraints> outerRectangle_constraints = sketch[ID]->geometricConstraints();
+	if (!outerRectangle_constraints)
+		return false;
+	Ptr<HorizontalConstraint> outerRectangle_HConstraint = outerRectangle_constraints->addHorizontal(outerRectangle->item(0));
+	if (!outerRectangle_HConstraint)
+		return false;
+	outerRectangle_HConstraint = outerRectangle_constraints->addHorizontal(outerRectangle->item(2));
+	if (!outerRectangle_HConstraint)
+		return false;
+	Ptr<VerticalConstraint> outerRectangle_VConstraint = outerRectangle_constraints->addVertical(outerRectangle->item(1));
+	if (!outerRectangle_VConstraint)
+		return false;
+	outerRectangle_VConstraint = outerRectangle_constraints->addVertical(outerRectangle->item(3));
+	if (!outerRectangle_VConstraint)
+		return false;
+	Ptr<SketchDimensions> outerRectangle_sketchDimensions = sketch[ID]->sketchDimensions();
+	if (!outerRectangle_sketchDimensions)
+		return false;
+	Ptr<SketchDimension> outerRectangle_sketchDimension = outerRectangle_sketchDimensions->addDistanceDimension(outerRectangle->item(0)->startSketchPoint(), outerRectangle->item(0)->endSketchPoint(), HorizontalDimensionOrientation, Point3D::create(5.5, -1, 0));
+	if (!outerRectangle_sketchDimension)
+		return false;
+
+	// Draw inner rectangle by two points. 
+	Ptr<SketchLineList> innerRectangle = sketchLines->addTwoPointRectangle(Point3D::create(8, 6, 0), Point3D::create(9, 5, 0));
+	if (!innerRectangle)
+		return false;
+	// Use the returned lines to add some constraints. 
+	Ptr<GeometricConstraints> innerRectangle_constraints = sketch[ID]->geometricConstraints();
+	if (!innerRectangle_constraints)
+		return false;
+	Ptr<HorizontalConstraint> innerRectangle_HConstraint = innerRectangle_constraints->addHorizontal(innerRectangle->item(0));
+	if (!innerRectangle_HConstraint)
+		return false;
+	innerRectangle_HConstraint = innerRectangle_constraints->addHorizontal(innerRectangle->item(2));
+	if (!innerRectangle_HConstraint)
+		return false;
+	Ptr<VerticalConstraint> innerRectangle_VConstraint = innerRectangle_constraints->addVertical(innerRectangle->item(1));
+	if (!innerRectangle_VConstraint)
+		return false;
+	innerRectangle_VConstraint = innerRectangle_constraints->addVertical(innerRectangle->item(3));
+	if (!innerRectangle_VConstraint)
+		return false;
+	Ptr<SketchDimensions> innerRectangle_sketchDimensions = sketch[ID]->sketchDimensions();
+	if (!innerRectangle_sketchDimensions)
+		return false;
+	Ptr<SketchDimension> innerRectangle_sketchDimension = innerRectangle_sketchDimensions->addDistanceDimension(innerRectangle->item(0)->startSketchPoint(), innerRectangle->item(0)->endSketchPoint(), HorizontalDimensionOrientation, Point3D::create(5.5, -1, 0));
+	if (!innerRectangle_sketchDimension)
+		return false;
+
+	// Draw two connected lines.
+
+}
+
+bool drawUBeam(int ID)
+{
+	getConstructionPlane(ID);
+getSubOccurrence(ID);
+
+	// Draw two connected lines. 
+	Ptr<SketchCurves> sketchCurves=(sketch[ID]->sketchCurves());
+	if (!sketchCurves)
+		return false;
+	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
+	if (!sketchLines)
+		return false;
+
+
+	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(Point3D::create(11, 7, 0), Point3D::create(11, 4, 0));
+	if (!line1)
+		return false;
+	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(), Point3D::create(14, 4, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(), Point3D::create(14, 7, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(), Point3D::create(13, 7, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(), Point3D::create(13, 5, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(), Point3D::create(12, 5, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line7 = sketchLines->addByTwoPoints(line6->endSketchPoint(), Point3D::create(12, 7, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line8 = sketchLines->addByTwoPoints(line7->endSketchPoint(), line1->startSketchPoint());
+	if (!line2)
 		return false;
 }
 
-bool drawComponents()
+bool drawVBeam(int ID)
+{
+	getConstructionPlane(ID);
+	getSubOccurrence(ID);
+
+	// Draw two connected lines. 
+	Ptr<SketchCurves> sketchCurves=(sketch[ID]->sketchCurves());
+	if (!sketchCurves)
+		return false;
+	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
+	if (!sketchLines)
+		return false;
+
+
+	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(Point3D::create(17, 8, 0), Point3D::create(16, 7, 0));
+	if (!line1)
+		return false;
+	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(), Point3D::create(19, 4, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(), Point3D::create(22, 7, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(), Point3D::create(21, 8, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(), Point3D::create(19, 6, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(), line1->startSketchPoint());
+	if (!line2)
+		return false;
+}
+
+bool drawLBeam(int ID)
+{
+	getConstructionPlane(ID);
+	getSubOccurrence(ID);
+
+	// Draw two connected lines.
+	Ptr<SketchCurves> sketchCurves=(sketch[ID]->sketchCurves());
+	if (!sketchCurves)
+		return false;
+	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
+	if (!sketchLines)
+		return false;
+
+
+	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(Point3D::create(2, 7, 0), Point3D::create(2, 4, 0));
+	if (!line1)
+		return false;
+	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(), Point3D::create(5, 4, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(), Point3D::create(5, 5, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(), Point3D::create(3, 5, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(), Point3D::create(3, 7, 0));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(), Point3D::create(2, 7, 0));
+	if (!line2)
+		return false;
+
+}
+
+bool drawComponents(int ID, std::string Type, double _extrusionLength)
 {
 	// Create sub component 1 under root component
 	subOccurrence.push_back(occs->addNewComponent(transform));
-	if (!subOccurrence[0])
+	if (!subOccurrence[ID])
 		return false;
 
 	// Create sketch 1 in sub component 1
-	subComponent.push_back(subOccurrence[0]->component());
-	if (!subComponent[0])
+	subComponent.push_back(subOccurrence[ID]->component());
+	if (!subComponent[ID])
 		return false;
 
-	sketches.push_back(subComponent[0]->sketches());
-	if (!sketches[0])
+	sketches.push_back(subComponent[ID]->sketches());
+	if (!sketches[ID])
 		return false;
 
+	if (Type == "R-Beam")
+	{
+		drawRBeam(ID);
+	}
+	else if (Type == "U-Beam")
+	{
+		drawUBeam(ID);
+	}
+	else if (Type == "V-Beam")
+	{
+		drawVBeam(ID);
+	}
+	else if (Type == "L-Beam")
+	{
+		drawLBeam(ID);
+	}
 
-	drawComponent1(0);
-	// Get the end face of the created extrude
-	Ptr<BRepFaces> endFaces = extrudeFeature[0]->endFaces();
-	if (!endFaces)
-		return false;
-	Ptr<BRepFace> endFace = endFaces->item(0);
-	if (!endFace)
-		return false;
-	drawComponent2(0, endFace);
+	extrudeComponent(ID, _extrusionLength);
 
-
-}
-
-bool assembleComponents()
-{
-	// Create the AsBuiltJoint
-	Ptr<AsBuiltJoints> asBuiltJoints_ = rootComp->asBuiltJoints();
-	if (!asBuiltJoints_)
-		return false;
-	Ptr<AsBuiltJointInput> asBuiltJointInput = asBuiltJoints_->createInput(subOccurrence[0], subOccurrence[1], nullptr);
-	if (!asBuiltJointInput)
-		return false;
-	Ptr<AsBuiltJoint> asBuiltJoint = asBuiltJoints_->add(asBuiltJointInput);
-	if (!asBuiltJoint)
-		return false;
-
-	// Fit to window
-	Ptr<Viewport> viewPort = app->activeViewport();
-	if (!viewPort)
-		return false;
-	Ptr<Camera> cam = viewPort->camera();
-	if (!cam)
-		return false;
-	cam->isFitView(true);
-	viewPort->camera(cam);
 }
 
 Ptr<Component> drawTankStand(Ptr<Design> design)
@@ -201,7 +315,30 @@ Ptr<Component> drawTankStand(Ptr<Design> design)
 	if (!transform)
 		return false;
 
-	drawComponents();
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (i >= 0 && i < 1)
+		{
+			//Draw Rectangular support beams
+			drawComponents(i, "R-Beam", 100);
+		}
+		else if (i >= 1 && i < 2)
+		{
+			//Draw U-beams
+			drawComponents(i, "U-Beam", 40);
+		}
+		else if (i >= 2 && i < 3)
+		{
+			//Draw V-beams
+			drawComponents(i, "V-Beam", 30);
+		}
+		else if (i >= 3 && i < 4)
+		{
+			//Draw L-beams
+			drawComponents(i, "L-Beam", 60);
+		}
+	}
 
 	//assembleComponents();
 }
