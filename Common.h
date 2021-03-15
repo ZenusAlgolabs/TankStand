@@ -12,10 +12,11 @@ std::string units = "mm";
 // Global command input declarations.
 Ptr<DropDownCommandInput> _waterQuality;
 Ptr<DropDownCommandInput> _structureMaterial;
-Ptr<TextBoxCommandInput> _errMessage;
-Ptr<ImageCommandInput> _imgInput;
 Ptr<ValueCommandInput> _tankCapacity;
 Ptr<ValueCommandInput> _tankHead;
+
+Ptr<TextBoxCommandInput> _errMessage;
+Ptr<ImageCommandInput> _imgInput;
 
 bool checkReturn(Ptr<Base> returnObj)
 {
@@ -38,12 +39,12 @@ bool is_digits(const std::string& str)
     return str.find_first_not_of("0123456789") == std::string::npos;
 }
 
-void displayErrorMessage()
+void displayErrorMessage(std::string section)
 {
     // get error message
     std::string errorMessage;
     int errorCode = app->getLastError(&errorMessage);
     if (GenericErrors::Ok != errorCode)
-        ui->messageBox(errorMessage);
+        ui->messageBox(section+": "+errorMessage);
 }
 #endif // !COMMON_H

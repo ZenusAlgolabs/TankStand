@@ -8,14 +8,14 @@ extern "C" XI_EXPORT bool run(const char* context)
     app = Application::get();
     if (!app)
     {
-        displayErrorMessage();
+        displayErrorMessage("");
         return false;
     }
 
     ui = app->userInterface();
     if (!ui)
     {
-        displayErrorMessage();
+        displayErrorMessage("");
         return false;
     }
 
@@ -26,7 +26,7 @@ extern "C" XI_EXPORT bool run(const char* context)
         cmdDef = ui->commandDefinitions()->addButtonDefinition("adskTankStandCPPScript", "Tank Stand", "Creates a Tank Stand component", "Resources/");
         if (!checkReturn(cmdDef))
         {
-            displayErrorMessage();
+            displayErrorMessage("");
             return false;
         }
     }
@@ -35,20 +35,20 @@ extern "C" XI_EXPORT bool run(const char* context)
     Ptr<CommandCreatedEvent> commandCreatedEvent = cmdDef->commandCreated();
     if (!checkReturn(commandCreatedEvent))
     {
-        displayErrorMessage();
+        displayErrorMessage("");
         return false;
     }
     bool isOk = commandCreatedEvent->add(&_standCommandCreated);
     if (!isOk)
     {
-        displayErrorMessage();
+        displayErrorMessage("");
         return false;
     }
 
     isOk = cmdDef->execute();
     if (!isOk)
     {
-        displayErrorMessage();
+        displayErrorMessage("");
         return false;
     }
 

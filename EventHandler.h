@@ -73,7 +73,7 @@ class GearCommandValidateInputsEventHandler : public adsk::core::ValidateInputsE
 public:
     void notify(const Ptr<ValidateInputsEventArgs>& eventArgs) override
     {
-        displayErrorMessage();
+        displayErrorMessage("");
         _errMessage->text("");
     }
 } _standCommandValidateInputs;
