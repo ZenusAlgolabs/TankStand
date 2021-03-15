@@ -81,7 +81,7 @@ bool getCommandInputValue(Ptr<CommandInput> commandInput, std::string unitType, 
     if (!commandInput)
     {
         *value = 0;
-            displayErrorMessage();
+            displayErrorMessage("");
             return false;
     }
 
@@ -97,7 +97,7 @@ bool getCommandInputValue(Ptr<CommandInput> commandInput, std::string unitType, 
     else
     {
         *value = 0;
-        displayErrorMessage();
+        displayErrorMessage("");
         return false;
     }
 }
