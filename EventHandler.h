@@ -61,6 +61,22 @@ public:
             }
         }
 
+        _tankCapacity->value(_tankCapacity->value());
+        _tankCapacity->unitType("mm");
+        _tankHead->value(_tankHead->value());
+        _tankHead->unitType("mm");
+
+        double valueC;
+        if (getCommandInputValue(_tankCapacity, "", &valueC))
+        {
+            double tankCapacity = valueC;
+        }
+        double valueH;
+        if (getCommandInputValue(_tankHead, "", &valueH))
+        {
+            double tankHead = valueH;
+        }
+
         _imgInput->isVisible(true);
 
         // Update the pitch diameter value.

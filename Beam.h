@@ -6,69 +6,9 @@
 #include "Common.h"
 #include "Inputs.h"
 
-bool extrudeComponent(int ID, double _extrusionLength)
+bool drawRBeam(int ID,int refID,int offSet)
 {
-	// Get the profile defined by the circle
-	Ptr<Profiles> profiles = (sketch[ID]->profiles());
-	if (!profiles)
-	{
-		displayErrorMessage("profiles");
-		return false;
-	}
-
-	Ptr<Profile> profile = (profiles->item(0));
-	if (!profile)
-	{
-		displayErrorMessage(std::to_string(ID) + " profile");
-		return false;
-	}
-
-	// Create an extrude input
-	Ptr<Features> features = (subComponent[ID]->features());
-	if (!features)
-	{
-		displayErrorMessage("features");
-		return false;
-	}
-
-	Ptr<ExtrudeFeatures> extrudeFeatures = (features->extrudeFeatures());
-	if (!extrudeFeatures)
-	{
-		displayErrorMessage("extrude features");
-		return false;
-	}
-
-	Ptr<ExtrudeFeatureInput> extrudeFeatureInput = (extrudeFeatures->createInput(profile, FeatureOperations::NewBodyFeatureOperation));
-	if (!extrudeFeatureInput)
-	{
-		displayErrorMessage(std::to_string(ID) + "ex-features input");
-		return false;
-	}
-
-	// Set the extrude input
-	Ptr<ValueInput> extrusionDistance = (ValueInput::createByString(std::to_string(_extrusionLength) + " mm"));
-	if (!extrusionDistance)
-	{
-		displayErrorMessage("ex-distance");
-		return false;
-	}
-
-	extrudeFeatureInput->setDistanceExtent(false, extrusionDistance);
-	extrudeFeatureInput->isSolid(true);
-
-	// Create the extrude
-	extrudeFeature.push_back(extrudeFeatures->add(extrudeFeatureInput));
-	if (!extrudeFeature[ID])
-	{
-		displayErrorMessage("feature");
-		return false;
-	}
-
-}
-
-bool drawRBeam(int ID)
-{
-	getConstructionPlane(ID);
+	getConstructionPlane(ID,refID,offSet);
 	getSubOccurrence(ID);
 
 	// Draw two connected lines. 
@@ -135,9 +75,9 @@ bool drawRBeam(int ID)
 		return false;
 }
 
-bool drawUBeam(int ID)
+bool drawUBeam(int ID, int refID, int offSet)
 {
-	getConstructionPlane(ID);
+	getConstructionPlane(ID,refID,offSet);
 	getSubOccurrence(ID);
 
 	// Draw two connected lines. 
@@ -175,43 +115,9 @@ bool drawUBeam(int ID)
 		return false;
 }
 
-bool drawVBeam(int ID)
+bool drawLBeam(int ID,int refID, int offSet)
 {
-	getConstructionPlane(ID);
-	getSubOccurrence(ID);
-
-	// Draw two connected lines. 
-	Ptr<SketchCurves> sketchCurves=(sketch[ID]->sketchCurves());
-	if (!sketchCurves)
-		return false;
-	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
-	if (!sketchLines)
-		return false;
-
-
-	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(Point3D::create(17, 8, 0), Point3D::create(16, 7, 0));
-	if (!line1)
-		return false;
-	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(), Point3D::create(19, 4, 0));
-	if (!line2)
-		return false;
-	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(), Point3D::create(22, 7, 0));
-	if (!line2)
-		return false;
-	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(), Point3D::create(21, 8, 0));
-	if (!line2)
-		return false;
-	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(), Point3D::create(19, 6, 0));
-	if (!line2)
-		return false;
-	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(), line1->startSketchPoint());
-	if (!line2)
-		return false;
-}
-
-bool drawLBeam(int ID)
-{
-	getConstructionPlane(ID);
+	getConstructionPlane(ID,refID, offSet);
 	getSubOccurrence(ID);
 
 	// Draw two connected lines.
@@ -244,28 +150,94 @@ bool drawLBeam(int ID)
 
 }
 
-bool drawComponents(int ID, std::string Type, double _extrusionLength)
+bool drawVerticalSupportBeams(int ID, double _extrusionLength)
 {
-
-	if (Type == "R-Beam")
-	{
-		drawRBeam(ID);
-	}
-	else if (Type == "U-Beam")
-	{
-		drawUBeam(ID);
-	}
-	else if (Type == "V-Beam")
-	{
-		drawVBeam(ID);
-	}
-	else if (Type == "L-Beam")
-	{
-		drawLBeam(ID);
-	}
-
+	drawRBeam(ID,0,0);
 	extrudeComponent(ID, _extrusionLength);
+	return true;
+}
 
+bool drawHorizontalSupportBeams(double _extrusionLength)
+{
+	for (int i = 4; i < 8; i++)
+	{
+		if (i == 4)
+		{
+			drawRBeam(i,0,0);
+		}
+		else
+		{
+			drawRBeam(i,(i-1),0);
+		}
+		extrudeComponent(i, _extrusionLength);
+	}
+	assembleComponents(4,5);
+	assembleComponents(5,6);
+	assembleComponents(6,7);
+
+	for (int i = 8; i < 12; i++)
+	{
+		if (i == 8)
+		{
+			drawRBeam(i, 0,20);
+		}
+		else
+		{
+			drawRBeam(i, (i - 1),0);
+		}
+		extrudeComponent(i, _extrusionLength);
+	}
+	assembleComponents(8,9);
+	assembleComponents(9,10);
+	assembleComponents(10,11);
+
+	for (int i = 12; i < 16; i++)
+	{
+		if (i == 12)
+		{
+			drawRBeam(i, 0,40);
+		}
+		else
+		{
+			drawRBeam(i, (i - 1),0);
+		}
+		extrudeComponent(i, _extrusionLength);
+	}
+	assembleComponents(12,13);
+	assembleComponents(13,14);
+	assembleComponents(14,15);
+	
+	for (int i = 16; i < 24; i++)
+	{
+		if (i == 16)
+		{
+			drawRBeam(i, 0,60);
+		}
+		else
+		{
+			drawRBeam(i, (i - 1),0);
+		}
+		extrudeComponent(i, _extrusionLength);
+	}
+	assembleComponents(15,16);
+	assembleComponents(15,17);
+	assembleComponents(17,18);
+	
+	return true;
+}
+
+bool drawDiagonalSupportBeams(int ID, double _extrusionLength)
+{
+	drawLBeam(ID,0,0);
+	extrudeComponent(ID, _extrusionLength);
+	return true;
+}
+
+bool drawHorizontalUBeams(int ID, double _extrusionLength)
+{
+	drawUBeam(ID,0,0);
+	extrudeComponent(ID, _extrusionLength);
+	return true;
 }
 
 Ptr<Component> drawTankStand(Ptr<Design> design)
@@ -289,28 +261,27 @@ Ptr<Component> drawTankStand(Ptr<Design> design)
 	if (!transform)
 		return false;
 
-
-	for (int i = 0; i < 40; i++)
+	for (int i = 0; i < 61; i++)
 	{
-		if (i >= 0 && i < 10)
+		if (i >= 0 && i < 4)
 		{
 			//Draw Rectangular support beams
-			drawComponents(i, "R-Beam", 100);
+			drawVerticalSupportBeams(i, _tankHead);
 		}
-		else if (i >= 1 && i < 20)
+		if (i == 4)
+		{
+			//Draw Rectangular horizontal support beams
+			drawHorizontalSupportBeams(50);
+		}
+		else if (i >= 24 && i < 39)
 		{
 			//Draw U-beams
-			drawComponents(i, "U-Beam", 40);
+			drawHorizontalUBeams(i, 100);
 		}
-		else if (i >= 2 && i < 30)
-		{
-			//Draw V-beams
-			drawComponents(i, "V-Beam", 30);
-		}
-		else if (i >= 3 && i < 40)
+		else if (i >= 39 && i < 51)
 		{
 			//Draw L-beams
-			drawComponents(i, "L-Beam", 60);
+			drawDiagonalSupportBeams(i, 100);
 		}
 	}
 
