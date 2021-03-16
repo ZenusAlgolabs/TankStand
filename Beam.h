@@ -69,17 +69,7 @@ bool extrudeComponent(int ID, double _extrusionLength)
 bool drawRBeam(int ID)
 {
 	getConstructionPlane(ID);
-
-	if (ID == 0)
-	{
-		sketch.push_back(sketches[ID]->add(constructionPlane));
-		if (!sketch[ID])
-			return false;
-	}
-	else
-	{
-		getSubOccurrence(ID);
-	}
+	getSubOccurrence(ID);
 
 	// Draw two connected lines. 
 	Ptr<SketchCurves> sketchCurves = (sketch[ID]->sketchCurves());
@@ -143,18 +133,15 @@ bool drawRBeam(int ID)
 	Ptr<SketchDimension> innerRectangle_sketchDimension = innerRectangle_sketchDimensions->addDistanceDimension(innerRectangle->item(0)->startSketchPoint(), innerRectangle->item(0)->endSketchPoint(), HorizontalDimensionOrientation, Point3D::create(5.5, -1, 0));
 	if (!innerRectangle_sketchDimension)
 		return false;
-
-	// Draw two connected lines.
-
 }
 
 bool drawUBeam(int ID)
 {
 	getConstructionPlane(ID);
-getSubOccurrence(ID);
+	getSubOccurrence(ID);
 
 	// Draw two connected lines. 
-	Ptr<SketchCurves> sketchCurves=(sketch[ID]->sketchCurves());
+	Ptr<SketchCurves> sketchCurves = (sketch[ID]->sketchCurves());
 	if (!sketchCurves)
 		return false;
 	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
@@ -259,19 +246,6 @@ bool drawLBeam(int ID)
 
 bool drawComponents(int ID, std::string Type, double _extrusionLength)
 {
-	// Create sub component 1 under root component
-	subOccurrence.push_back(occs->addNewComponent(transform));
-	if (!subOccurrence[ID])
-		return false;
-
-	// Create sketch 1 in sub component 1
-	subComponent.push_back(subOccurrence[ID]->component());
-	if (!subComponent[ID])
-		return false;
-
-	sketches.push_back(subComponent[ID]->sketches());
-	if (!sketches[ID])
-		return false;
 
 	if (Type == "R-Beam")
 	{
@@ -316,24 +290,24 @@ Ptr<Component> drawTankStand(Ptr<Design> design)
 		return false;
 
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 40; i++)
 	{
-		if (i >= 0 && i < 1)
+		if (i >= 0 && i < 10)
 		{
 			//Draw Rectangular support beams
 			drawComponents(i, "R-Beam", 100);
 		}
-		else if (i >= 1 && i < 2)
+		else if (i >= 1 && i < 20)
 		{
 			//Draw U-beams
 			drawComponents(i, "U-Beam", 40);
 		}
-		else if (i >= 2 && i < 3)
+		else if (i >= 2 && i < 30)
 		{
 			//Draw V-beams
 			drawComponents(i, "V-Beam", 30);
 		}
-		else if (i >= 3 && i < 4)
+		else if (i >= 3 && i < 40)
 		{
 			//Draw L-beams
 			drawComponents(i, "L-Beam", 60);
