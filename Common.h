@@ -106,22 +106,21 @@ bool getConstructionPlane(int ID)
 
 bool getSubOccurrence(int ID)
 {
-	if (ID != 0)
-	{
-		subOccurrence.push_back(occs->addNewComponent(transform));
-		if (!subOccurrence[ID - 1])
-			return false;
+	subOccurrence.push_back(occs->addNewComponent(transform));
+	if (!subOccurrence[ID])
+		return false;
 
-		subComponent.push_back(subOccurrence[ID - 1]->component());
-		if (!subComponent[ID - 1])
-			return false;
-		sketches.push_back(subComponent[ID - 1]->sketches());
-		if (!sketches[ID])
-			return false;
-		sketch.push_back(sketches[ID]->add(constructionPlane));
-		if (!sketch[ID])
-			return false;
-	}
+	subComponent.push_back(subOccurrence[ID]->component());
+	if (!subComponent[ID])
+		return false;
+
+	sketches.push_back(subComponent[ID]->sketches());
+	if (!sketches[ID])
+		return false;
+
+	sketch.push_back(sketches[ID]->add(constructionPlane));
+	if (!sketch[ID])
+		return false;
 }
 
 bool assembleComponents()
