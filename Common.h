@@ -29,7 +29,7 @@ std::vector<Ptr<Sketch>> sketch;
 std::vector<Ptr<ExtrudeFeature>> extrudeFeature;
 
 Ptr<Point3D> centerPoint;
-Ptr<BRepFaces> end_Faces;
+Ptr<BRepFaces> endFaces;
 Ptr<BRepFace> endFace;
 Ptr<ConstructionPlane> constructionPlane;
 
@@ -63,18 +63,18 @@ void displayErrorMessage(std::string section)
         ui->messageBox(section+": "+errorMessage);
 }
 
-bool getEndFace()
+bool getEndFace(int refID)
 {
 	// Get the end face of the created extrude
-	end_Faces = extrudeFeature[0]->endFaces();
-	if (!end_Faces)
+	endFaces = extrudeFeature[refID]->endFaces();
+	if (!endFaces)
 		return false;
-	endFace = end_Faces->item(0);
+	endFace = endFaces->item(0);
 	if (!endFace)
 		return false;
 }
 
-bool getConstructionPlane(int ID)
+bool getConstructionPlane(int ID,int refID,int offSet)
 {
 	if (ID == 0)
 	{
@@ -84,7 +84,7 @@ bool getConstructionPlane(int ID)
 	}
 	else
 	{
-		Ptr<ConstructionPlanes> ctorPlanes = subComponent[0]->constructionPlanes();
+		Ptr<ConstructionPlanes> ctorPlanes = subComponent[refID]->constructionPlanes();
 		if (!ctorPlanes)
 			return false;
 
@@ -92,13 +92,13 @@ bool getConstructionPlane(int ID)
 		if (!ctorPlaneInput)
 			return false;
 
-		getEndFace();
-		ctorPlaneInput->setByOffset(endFace, adsk::core::ValueInput::createByString("0 mm"));
+		getEndFace(refID);
+		ctorPlaneInput->setByOffset(endFace, adsk::core::ValueInput::createByString(std::to_string(offSet)+" mm"));
 		Ptr<ConstructionPlane> ctorPlane = ctorPlanes->add(ctorPlaneInput);
 		if (!ctorPlane)
 			return false;
 
-		constructionPlane = ctorPlane->createForAssemblyContext(subOccurrence[0]);
+		constructionPlane = ctorPlane->createForAssemblyContext(subOccurrence[refID]);
 		if (!constructionPlane)
 			return false;
 	}
@@ -123,13 +123,73 @@ bool getSubOccurrence(int ID)
 		return false;
 }
 
-bool assembleComponents()
+bool extrudeComponent(int ID, double _extrusionLength)
+{
+	// Get the profile defined by the circle
+	Ptr<Profiles> profiles = (sketch[ID]->profiles());
+	if (!profiles)
+	{
+		displayErrorMessage("profiles");
+		return false;
+	}
+
+	Ptr<Profile> profile = (profiles->item(0));
+	if (!profile)
+	{
+		displayErrorMessage(std::to_string(ID) + " profile");
+		return false;
+	}
+
+	// Create an extrude input
+	Ptr<Features> features = (subComponent[ID]->features());
+	if (!features)
+	{
+		displayErrorMessage("features");
+		return false;
+	}
+
+	Ptr<ExtrudeFeatures> extrudeFeatures = (features->extrudeFeatures());
+	if (!extrudeFeatures)
+	{
+		displayErrorMessage("extrude features");
+		return false;
+	}
+
+	Ptr<ExtrudeFeatureInput> extrudeFeatureInput = (extrudeFeatures->createInput(profile, FeatureOperations::NewBodyFeatureOperation));
+	if (!extrudeFeatureInput)
+	{
+		displayErrorMessage(std::to_string(ID) + "ex-features input");
+		return false;
+	}
+
+	// Set the extrude input
+	Ptr<ValueInput> extrusionDistance = (ValueInput::createByString(std::to_string(_extrusionLength) + " mm"));
+	if (!extrusionDistance)
+	{
+		displayErrorMessage("ex-distance");
+		return false;
+	}
+
+	extrudeFeatureInput->setDistanceExtent(false, extrusionDistance);
+	extrudeFeatureInput->isSolid(true);
+
+	// Create the extrude
+	extrudeFeature.push_back(extrudeFeatures->add(extrudeFeatureInput));
+	if (!extrudeFeature[ID])
+	{
+		displayErrorMessage("feature");
+		return false;
+	}
+
+}
+
+bool assembleComponents(int componentID_1,int componentID_2)
 {
 	// Create the AsBuiltJoint
 	Ptr<AsBuiltJoints> asBuiltJoints_ = rootComp->asBuiltJoints();
 	if (!asBuiltJoints_)
 		return false;
-	Ptr<AsBuiltJointInput> asBuiltJointInput = asBuiltJoints_->createInput(subOccurrence[0], subOccurrence[1], nullptr);
+	Ptr<AsBuiltJointInput> asBuiltJointInput = asBuiltJoints_->createInput(subOccurrence[componentID_1], subOccurrence[componentID_2], nullptr);
 	if (!asBuiltJointInput)
 		return false;
 	Ptr<AsBuiltJoint> asBuiltJoint = asBuiltJoints_->add(asBuiltJointInput);
