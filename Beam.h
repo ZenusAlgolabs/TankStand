@@ -6,10 +6,127 @@
 #include "Common.h"
 #include "Inputs.h"
 
+std::vector<int>Principle;
+std::vector<int>P1;
+std::vector<int>P2;
+std::vector<int>P3;
+
+bool calculatePriciplePositions()
+{
+	int offset = 10;
+	int x_1, y_1, x_2, y_2, x_3, y_3, x_4, y_4;
+	x_1 = Principle[0]; y_1 = Principle[1];
+	x_2 = Principle[2]; y_2 = Principle[3]; double width = double(y_2) - double(y_1);
+	x_3 = Principle[4]; y_3 = Principle[5];
+	x_4 = Principle[6]; y_4 = Principle[7]; double length = double(x_4) - double(x_1);
+
+	int P1_x1, P1_y1, P1_x2, P1_y2, P1_x3, P1_y3, P1_x4, P1_y4;
+	P1_x1 = x_1;
+	P1_y1 = y_2 + offset;
+
+	P1_x2 = P1_x1;
+	P1_y2 = P1_y1 + width;
+
+	P1_x3 = P1_x2 + length;
+	P1_y3 = P1_y2;
+
+	P1_x4 = P1_x3;
+	P1_y4 = P1_y1;
+
+	P1.push_back(P1_x1);
+	P1.push_back(P1_y1);
+	P1.push_back(P1_x2);
+	P1.push_back(P1_y2);
+	P1.push_back(P1_x3);
+	P1.push_back(P1_y3);
+	P1.push_back(P1_x4);
+	P1.push_back(P1_y4);
+
+	int P2_x1, P2_y1, P2_x2, P2_y2, P2_x3, P2_y3, P2_x4, P2_y4;
+	P2_x1 = x_4 + offset;
+	P2_y1 = y_4;
+
+	P2_x2 = P2_x1;
+	P2_y2 = P2_y1 + width;
+
+	P2_x3 = P2_x2 + length;
+	P2_y3 = P2_y2;
+
+	P2_x4 = P2_x3;
+	P2_y4 = P2_y1;
+
+	P2.push_back(P2_x1);
+	P2.push_back(P2_y1);
+	P2.push_back(P2_x2);
+	P2.push_back(P2_y2);
+	P2.push_back(P2_x3);
+	P2.push_back(P2_y3);
+	P2.push_back(P2_x4);
+	P2.push_back(P2_y4);
+
+	int P3_x1, P3_y1, P3_x2, P3_y2, P3_x3, P3_y3, P3_x4, P3_y4;
+	P3_x1 = P1_x4 + offset;
+	P3_y1 = P1_y4;
+
+	P3_x2 = P3_x1;
+	P3_y2 = P3_y1 + width;
+
+	P3_x3 = P3_x2 + length;
+	P3_y3 = P3_y2;
+
+	P3_x4 = P3_x3;
+	P3_y4 = P3_y1;
+
+	P3.push_back(P3_x1);
+	P3.push_back(P3_y1);
+	P3.push_back(P3_x2);
+	P3.push_back(P3_y2);
+	P3.push_back(P3_x3);
+	P3.push_back(P3_y3);
+	P3.push_back(P3_x4);
+	P3.push_back(P3_y4);
+
+	return true;
+}
+
 bool drawRBeam(int ID,int refID,int offSet)
 {
 	getConstructionPlane(ID,refID,offSet);
 	getSubOccurrence(ID);
+
+	int x_1 = 0, y_1 = 0, x_2 = 0, y_2 = 0, x_3 = 0, y_3 = 0, x_4 = 0, y_4 = 0;
+
+	if (ID == 0)
+	{
+		x_1 = Principle[0]; y_1 = Principle[1];
+		x_2 = Principle[2]; y_2 = Principle[3];
+		x_3 = Principle[4]; y_3 = Principle[5];
+		x_4 = Principle[6]; y_4 = Principle[7];
+	}
+	else
+	{
+		if (ID == 1)
+		{
+			x_1 = P1[0]; y_1 = P1[1];
+			x_2 = P1[2]; y_2 = P1[3];
+			x_3 = P1[4]; y_3 = P1[5];
+			x_4 = P1[6]; y_4 = P1[7];
+		}
+		else if (ID == 2)
+		{
+			x_1 = P2[0]; y_1 = P2[1];
+			x_2 = P2[2]; y_2 = P2[3];
+			x_3 = P2[4]; y_3 = P2[5];
+			x_4 = P2[6]; y_4 = P2[7];
+		}
+		else if (ID == 3)
+		{
+			x_1 = P3[0]; y_1 = P3[1];
+			x_2 = P3[2]; y_2 = P3[3];
+			x_3 = P3[4]; y_3 = P3[5];
+			x_4 = P3[6]; y_4 = P3[7];
+		}
+	}
 
 	// Draw two connected lines. 
 	Ptr<SketchCurves> sketchCurves = (sketch[ID]->sketchCurves());
@@ -20,59 +137,33 @@ bool drawRBeam(int ID,int refID,int offSet)
 		return false;
 
 	// Draw outer rectangle by two points. 
-	Ptr<SketchLineList> outerRectangle = sketchLines->addTwoPointRectangle(Point3D::create((7), (7), 0), Point3D::create((10), (4), 0));
-	if (!outerRectangle)
+	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(Point3D::create(x_1, y_1, 0), Point3D::create(x_2, y_2, 0));
+	if (!line1)
 		return false;
-
-	// Use the returned lines to add some constraints. 
-	Ptr<GeometricConstraints> outerRectangle_constraints = sketch[ID]->geometricConstraints();
-	if (!outerRectangle_constraints)
+	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(), Point3D::create(x_3, y_3, 0));
+	if (!line2)
 		return false;
-	Ptr<HorizontalConstraint> outerRectangle_HConstraint = outerRectangle_constraints->addHorizontal(outerRectangle->item(0));
-	if (!outerRectangle_HConstraint)
+	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(), Point3D::create(x_4, y_4, 0));
+	if (!line3)
 		return false;
-	outerRectangle_HConstraint = outerRectangle_constraints->addHorizontal(outerRectangle->item(2));
-	if (!outerRectangle_HConstraint)
-		return false;
-	Ptr<VerticalConstraint> outerRectangle_VConstraint = outerRectangle_constraints->addVertical(outerRectangle->item(1));
-	if (!outerRectangle_VConstraint)
-		return false;
-	outerRectangle_VConstraint = outerRectangle_constraints->addVertical(outerRectangle->item(3));
-	if (!outerRectangle_VConstraint)
-		return false;
-	Ptr<SketchDimensions> outerRectangle_sketchDimensions = sketch[ID]->sketchDimensions();
-	if (!outerRectangle_sketchDimensions)
-		return false;
-	Ptr<SketchDimension> outerRectangle_sketchDimension = outerRectangle_sketchDimensions->addDistanceDimension(outerRectangle->item(0)->startSketchPoint(), outerRectangle->item(0)->endSketchPoint(), HorizontalDimensionOrientation, Point3D::create(5.5, -1, 0));
-	if (!outerRectangle_sketchDimension)
+	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(), line1->startSketchPoint());
+	if (!line4)
 		return false;
 
 	// Draw inner rectangle by two points. 
-	Ptr<SketchLineList> innerRectangle = sketchLines->addTwoPointRectangle(Point3D::create(8, 6, 0), Point3D::create(9, 5, 0));
-	if (!innerRectangle)
+	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(Point3D::create(x_1 + 1, y_1 + 1, 0), Point3D::create(x_2 + 1, y_2 - 1, 0));
+	if (!line5)
 		return false;
-	// Use the returned lines to add some constraints. 
-	Ptr<GeometricConstraints> innerRectangle_constraints = sketch[ID]->geometricConstraints();
-	if (!innerRectangle_constraints)
+	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(), Point3D::create(x_3 - 1, y_3 - 1, 0));
+	if (!line5)
 		return false;
-	Ptr<HorizontalConstraint> innerRectangle_HConstraint = innerRectangle_constraints->addHorizontal(innerRectangle->item(0));
-	if (!innerRectangle_HConstraint)
+	Ptr<SketchLine> line7 = sketchLines->addByTwoPoints(line6->endSketchPoint(), Point3D::create(x_4 - 1, y_4 + 1, 0));
+	if (!line7)
 		return false;
-	innerRectangle_HConstraint = innerRectangle_constraints->addHorizontal(innerRectangle->item(2));
-	if (!innerRectangle_HConstraint)
+	Ptr<SketchLine> line8 = sketchLines->addByTwoPoints(line7->endSketchPoint(), line5->startSketchPoint());
+	if (!line8)
 		return false;
-	Ptr<VerticalConstraint> innerRectangle_VConstraint = innerRectangle_constraints->addVertical(innerRectangle->item(1));
-	if (!innerRectangle_VConstraint)
-		return false;
-	innerRectangle_VConstraint = innerRectangle_constraints->addVertical(innerRectangle->item(3));
-	if (!innerRectangle_VConstraint)
-		return false;
-	Ptr<SketchDimensions> innerRectangle_sketchDimensions = sketch[ID]->sketchDimensions();
-	if (!innerRectangle_sketchDimensions)
-		return false;
-	Ptr<SketchDimension> innerRectangle_sketchDimension = innerRectangle_sketchDimensions->addDistanceDimension(innerRectangle->item(0)->startSketchPoint(), innerRectangle->item(0)->endSketchPoint(), HorizontalDimensionOrientation, Point3D::create(5.5, -1, 0));
-	if (!innerRectangle_sketchDimension)
-		return false;
+
 }
 
 bool drawUBeam(int ID, int refID, int offSet)
@@ -261,6 +352,17 @@ Ptr<Component> drawTankStand(Ptr<Design> design)
 	if (!transform)
 		return false;
 
+	Principle.push_back(0);
+	Principle.push_back(0);
+	Principle.push_back(0);
+	Principle.push_back(4);
+	Principle.push_back(4);
+	Principle.push_back(4);
+	Principle.push_back(4);
+	Principle.push_back(0);
+
+	calculatePriciplePositions();
+
 	for (int i = 0; i < 61; i++)
 	{
 		if (i >= 0 && i < 4)
@@ -268,7 +370,7 @@ Ptr<Component> drawTankStand(Ptr<Design> design)
 			//Draw Rectangular support beams
 			drawVerticalSupportBeams(i, _tankHead);
 		}
-		if (i == 4)
+		/*if (i == 4)
 		{
 			//Draw Rectangular horizontal support beams
 			drawHorizontalSupportBeams(50);
@@ -282,7 +384,7 @@ Ptr<Component> drawTankStand(Ptr<Design> design)
 		{
 			//Draw L-beams
 			drawDiagonalSupportBeams(i, 100);
-		}
+		}*/
 	}
 
 	//assembleComponents();

@@ -93,7 +93,7 @@ bool getConstructionPlane(int ID,int refID,int offSet)
 			return false;
 
 		getEndFace(refID);
-		ctorPlaneInput->setByOffset(endFace, adsk::core::ValueInput::createByString(std::to_string(offSet)+" mm"));
+		//ctorPlaneInput->setByOffset(endFace, adsk::core::ValueInput::createByString(std::to_string(offSet)+" mm"));
 		Ptr<ConstructionPlane> ctorPlane = ctorPlanes->add(ctorPlaneInput);
 		if (!ctorPlane)
 			return false;
