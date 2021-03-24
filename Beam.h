@@ -13,7 +13,6 @@ std::vector<int>P3;
 
 std::vector<double>UBeam_Location;
 
-double tankHead = 100;
 double tankDiameter = 100;
 
 int UBeamLastLocation = 0;
@@ -177,9 +176,10 @@ bool drawRBeam(int ID,int refID,int offSet)
 bool calculateUPosition(int ID,double thickness,double height,double width)
 {
 	double startPoint_x = UBeamLastLocation;
-	double startPoint_z=0;
+	double startPoint_z = 20;
 	if (ID == 12 || ID == 13)
 	{
+		startPoint_x = startPoint_x - height;
 		if (ID == 12)
 		{
 			startPoint_z = (tankDiameter / 3);
@@ -377,11 +377,9 @@ bool drawHorizontalUBeams(int ID, double _extrusionLength)
 	return true;
 }
 
-Ptr<Component> drawTankStand(Ptr<Design> design)
+bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 {
-	Ptr<Attributes> attribs = design->attributes();
-	attribs->add("TankStand", "waterQuality", _waterQuality->selectedItem()->name());
-	attribs->add("TankStand", "structureMaterial", _structureMaterial->selectedItem()->name());
+	ui->messageBox(std::to_string(tankCapacity) + " : " + std::to_string(tankHead));
 
 	design->designType(ParametricDesignType);
 
@@ -434,6 +432,7 @@ Ptr<Component> drawTankStand(Ptr<Design> design)
 	}
 
 	//assembleComponents();
+	return true;
 }
 
 #endif // !BEAM_H

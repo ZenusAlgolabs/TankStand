@@ -13,24 +13,28 @@ class StandCommandExecuteEventHandler : public adsk::core::CommandEventHandler
 public:
     void notify(const Ptr<CommandEventArgs>& eventArgs) override
     {
-        Ptr<Documents> documents = app->documents();
-        if (!documents)
-            return;
+        if (_structureMaterial->selectedItem()->name() == "Aluminium")
+        {
 
-        Ptr<Document> doc = documents->add(DocumentTypes::FusionDesignDocumentType);
-        if (!doc)
-            return;
+        }
+        else if (_structureMaterial->selectedItem()->name() == "Steel")
+        {
 
-        Ptr<Product> product = app->activeProduct();
-        if (!product)
-            return;
+        }
 
-        Ptr<Design> design = product;
-        if (!design)
-            return;
+        // Save the current values as attributes.
+        Ptr<Design> des = app->activeProduct();
+        Ptr<Attributes> attribs = des->attributes();
+        attribs->add("TankStand", "material", _structureMaterial->selectedItem()->name());
+        attribs->add("TankStand", "tankHead", std::to_string(_tankHead->value()));
+        attribs->add("TankStand", "tankCapacity", std::to_string(_tankCapacity->value()));
 
-        drawTankStand(design);
+        // Get the current values.
+        double tankHead = _tankHead->value();
+        double tankCapacity = _tankCapacity->value();
 
+        // Create the gear.
+       drawTankStand(des, tankHead, tankCapacity);
     }
 } _standCommandExecute;
 
@@ -41,46 +45,36 @@ public:
     {
         Ptr<CommandInput> changedInput = eventArgs->input();
 
-        if (changedInput->id() == "waterQuality")
-        {
-            if (_waterQuality->selectedItem()->name() == "Salt")
-            {
-            }
-            else if (_waterQuality->selectedItem()->name() == "Fresh")
-            {
-            }
-        }
-
-        if (changedInput->id() == "structureMaterial")
+        if (changedInput->id() == "material")
         {
             if (_structureMaterial->selectedItem()->name() == "Aluminium")
             {
+                _imgInput->isVisible(false);
+                units = "mm";
             }
             else if (_structureMaterial->selectedItem()->name() == "Steel")
             {
+                _imgInput->isVisible(true);
+                units = "mm";
             }
-        }
 
-        _tankCapacity->value(_tankCapacity->value());
-        _tankCapacity->unitType("mm");
-        _tankHead->value(_tankHead->value());
-        _tankHead->unitType("mm");
-
-        double valueC;
-        if (getCommandInputValue(_tankCapacity, "", &valueC))
-        {
-            double tankCapacity = valueC;
+            // Set each one to it's current value because otherwised if the user 
+            // has edited it, the value won't update in the dialog because 
+            // apparently it remembers the units when the value was edited.
+            // Setting the value using the API resets this.
+            _tankCapacity->value(_tankCapacity->value());
+            _tankCapacity->unitType(units);
+            _tankHead->value(_tankHead->value());
+            _tankHead->unitType(units);
         }
-        double valueH;
-        if (getCommandInputValue(_tankHead, "", &valueH))
-        {
-            double tankHead = valueH;
-        }
-
-        _imgInput->isVisible(true);
 
         // Update the pitch diameter value.
-        double diaPitch = 0;
+        if (_structureMaterial->selectedItem()->name() == "Aluminium")
+        {
+        }
+        else if (_structureMaterial->selectedItem()->name() == "Steel")
+        {
+        }
     }
 } _standCommandInputChanged;
 
@@ -119,25 +113,48 @@ public:
 
         std::string defaultUnits = des->unitsManager()->defaultLengthUnits();
 
-        // Define the default values and get the previous values from the attributes.
-        std::string material= "Aluminium";
-        Ptr<Attribute> materialAttrib = des->attributes()->itemByName("TankStand", "material");
-        if (checkReturn(materialAttrib))
-            material = materialAttrib->value();
-
-        std::string quality;
-        Ptr<Attribute> qualityAttrib = des->attributes()->itemByName("TankStand", "quality");
-        if (checkReturn(qualityAttrib))
-            quality = qualityAttrib->value();
-
-        if (quality == "Fresh")
+        // Determine whether to use inches or millimeters as the intial default.
+        if (defaultUnits == "in" || defaultUnits == "ft")
         {
-
+            units = "in";
         }
         else
         {
-
+            units = "mm";
         }
+
+        // Define the default values and get the previous values from the attributes.
+        std::string material;
+        if (units == "in")
+        {
+            material = "Aluminium";
+        }
+        else
+        {
+            material = "Steel";
+        }
+
+        Ptr<Attribute> structureMaterialAttribute = des->attributes()->itemByName("TankStand", "material");
+        if (checkReturn(structureMaterialAttribute))
+            material = structureMaterialAttribute->value();
+        if (material == "Aluminium")
+        {
+            units = "in";
+        }
+        else
+        {
+            units = "mm";
+        }
+
+        std::string tankCapacity = "0";
+        Ptr<Attribute> backlashAttrib = des->attributes()->itemByName("TankStand", "tankCapacity");
+        if (checkReturn(backlashAttrib))
+            tankCapacity = backlashAttrib->value();
+
+        std::string tankHead = std::to_string(0.5 * 2.54);
+        Ptr<Attribute> thicknessAttrib = des->attributes()->itemByName("TankStand", "tankHead");
+        if (checkReturn(thicknessAttrib))
+            tankHead = thicknessAttrib->value();
 
         Ptr<Command> cmd = eventArgs->command();
         cmd->isExecutedWhenPreEmpted(false);
@@ -145,8 +162,40 @@ public:
         if (!checkReturn(inputs))
             return;
 
-        //Inputs pannel
-        tankstand_Inputs_Panel(des, inputs);
+        // Define the command dialog.
+        _imgInput = inputs->addImageCommandInput("tankStandImage", "", "Resources/images/TankStand.png");
+        if (!checkReturn(_imgInput))
+            return;
+        _imgInput->isFullWidth(true);
+        _imgInput->isVisible(true);
+
+        _structureMaterial = inputs->addDropDownCommandInput("material", "Structure Material", TextListDropDownStyle);
+        if (!checkReturn(_structureMaterial))
+            return;
+
+        if (material == "Aluminium")
+        {
+            _structureMaterial->listItems()->add("Aluminium", true);
+            _structureMaterial->listItems()->add("Steel", false);
+        }
+        else
+        {
+            _structureMaterial->listItems()->add("Aluminium", false);
+            _structureMaterial->listItems()->add("Steel", true);
+        }
+
+        _tankCapacity = inputs->addValueInput("tankCapacity", "Tank Capacity", units, ValueInput::createByReal(std::stod(tankCapacity)));
+        if (!checkReturn(_tankCapacity))
+            return;
+
+        _tankHead = inputs->addValueInput("tankHead", "Tank Head", units, ValueInput::createByReal(std::stod(tankHead)));
+        if (!checkReturn(_tankHead))
+            return;
+
+        _errMessage = inputs->addTextBoxCommandInput("errMessage", "", "", 2, true);
+        if (!checkReturn(_errMessage))
+            return;
+        _errMessage->isFullWidth(true);
 
         // Connect to the command related events.
         Ptr<InputChangedEvent> inputChangedEvent = cmd->inputChanged();
