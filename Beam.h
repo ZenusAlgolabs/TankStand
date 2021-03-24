@@ -11,9 +11,16 @@ std::vector<int>P1;
 std::vector<int>P2;
 std::vector<int>P3;
 
+std::vector<double>UBeam_Location;
+
+double tankHead = 100;
+double tankDiameter = 100;
+
+int UBeamLastLocation = 0;
+double UBeamStartPoint = 0;
+
 bool calculatePriciplePositions()
 {
-	int offset = 10;
 	int x_1, y_1, x_2, y_2, x_3, y_3, x_4, y_4;
 	x_1 = Principle[0]; y_1 = Principle[1];
 	x_2 = Principle[2]; y_2 = Principle[3]; double width = double(y_2) - double(y_1);
@@ -22,7 +29,7 @@ bool calculatePriciplePositions()
 
 	int P1_x1, P1_y1, P1_x2, P1_y2, P1_x3, P1_y3, P1_x4, P1_y4;
 	P1_x1 = x_1;
-	P1_y1 = y_2 + offset;
+	P1_y1 = y_2 + tankDiameter;
 
 	P1_x2 = P1_x1;
 	P1_y2 = P1_y1 + width;
@@ -43,7 +50,7 @@ bool calculatePriciplePositions()
 	P1.push_back(P1_y4);
 
 	int P2_x1, P2_y1, P2_x2, P2_y2, P2_x3, P2_y3, P2_x4, P2_y4;
-	P2_x1 = x_4 + offset;
+	P2_x1 = x_4 + tankDiameter;
 	P2_y1 = y_4;
 
 	P2_x2 = P2_x1;
@@ -65,7 +72,7 @@ bool calculatePriciplePositions()
 	P2.push_back(P2_y4);
 
 	int P3_x1, P3_y1, P3_x2, P3_y2, P3_x3, P3_y3, P3_x4, P3_y4;
-	P3_x1 = P1_x4 + offset;
+	P3_x1 = P1_x4 + tankDiameter;
 	P3_y1 = P1_y4;
 
 	P3_x2 = P3_x1;
@@ -76,6 +83,7 @@ bool calculatePriciplePositions()
 
 	P3_x4 = P3_x3;
 	P3_y4 = P3_y1;
+	UBeamStartPoint = P3_x4 + 20;
 
 	P3.push_back(P3_x1);
 	P3.push_back(P3_y1);
@@ -166,6 +174,64 @@ bool drawRBeam(int ID,int refID,int offSet)
 
 }
 
+bool calculateUPosition(int ID,double thickness,double height,double width)
+{
+	double startPoint_x = UBeamLastLocation;
+	double startPoint_z=0;
+	if (ID == 12 || ID == 13)
+	{
+		if (ID == 12)
+		{
+			startPoint_z = (tankDiameter / 3);
+		}
+		if (ID == 13)
+		{
+			startPoint_z = tankDiameter - (tankDiameter / 3);
+		}
+	}
+
+	double point1_x = startPoint_x;
+	double point1_z = startPoint_z + height;
+
+	double point2_x = point1_x + width;
+	double point2_z = point1_z;
+
+	double point3_x = point2_x;
+	UBeamLastLocation = point3_x + 10;
+	double point3_z = startPoint_z;
+
+	double point4_x = point3_x - thickness;
+	double point4_z = startPoint_z;
+
+	double point5_x = point4_x;
+	double point5_z = point2_z - thickness;
+
+	double point6_x = startPoint_x + thickness;
+	double point6_z = point5_z;
+
+	double point7_x = point6_x;
+	double point7_z = startPoint_z;
+
+	UBeam_Location.push_back(startPoint_x);
+	UBeam_Location.push_back(startPoint_z);
+	UBeam_Location.push_back(point1_x);
+	UBeam_Location.push_back(point1_z);
+	UBeam_Location.push_back(point2_x);
+	UBeam_Location.push_back(point2_z);
+	UBeam_Location.push_back(point3_x);
+	UBeam_Location.push_back(point3_z);
+	UBeam_Location.push_back(point4_x);
+	UBeam_Location.push_back(point4_z);
+	UBeam_Location.push_back(point5_x);
+	UBeam_Location.push_back(point5_z);
+	UBeam_Location.push_back(point6_x);
+	UBeam_Location.push_back(point6_z);
+	UBeam_Location.push_back(point7_x);
+	UBeam_Location.push_back(point7_z);
+
+	return true;
+}
+
 bool drawUBeam(int ID, int refID, int offSet)
 {
 	getConstructionPlane(ID,refID,offSet);
@@ -179,31 +245,74 @@ bool drawUBeam(int ID, int refID, int offSet)
 	if (!sketchLines)
 		return false;
 
+	if (ID == 12 || ID == 13)
+	{
+		calculateUPosition(ID,0.5, 4, 4);
+		Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
+			Point3D::create(UBeamStartPoint,UBeam_Location[0], UBeam_Location[1]),
+			Point3D::create(UBeamStartPoint, UBeam_Location[2], UBeam_Location[3]));
+		if (!line1)
+			return false;
 
-	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(Point3D::create(11, 7, 0), Point3D::create(11, 4, 0));
-	if (!line1)
-		return false;
-	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(), Point3D::create(14, 4, 0));
-	if (!line2)
-		return false;
-	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(), Point3D::create(14, 7, 0));
-	if (!line2)
-		return false;
-	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(), Point3D::create(13, 7, 0));
-	if (!line2)
-		return false;
-	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(), Point3D::create(13, 5, 0));
-	if (!line2)
-		return false;
-	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(), Point3D::create(12, 5, 0));
-	if (!line2)
-		return false;
-	Ptr<SketchLine> line7 = sketchLines->addByTwoPoints(line6->endSketchPoint(), Point3D::create(12, 7, 0));
-	if (!line2)
-		return false;
-	Ptr<SketchLine> line8 = sketchLines->addByTwoPoints(line7->endSketchPoint(), line1->startSketchPoint());
-	if (!line2)
-		return false;
+		Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(), Point3D::create(UBeamStartPoint, UBeam_Location[4],  UBeam_Location[5]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(), Point3D::create(UBeamStartPoint, UBeam_Location[6], UBeam_Location[7]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(), Point3D::create(UBeamStartPoint, UBeam_Location[8], UBeam_Location[9]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(), Point3D::create(UBeamStartPoint, UBeam_Location[10], UBeam_Location[11]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(), Point3D::create(UBeamStartPoint, UBeam_Location[12], UBeam_Location[13]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line7 = sketchLines->addByTwoPoints(line6->endSketchPoint(), Point3D::create(UBeamStartPoint, UBeam_Location[14], UBeam_Location[15]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line8 = sketchLines->addByTwoPoints(line7->endSketchPoint(), line1->startSketchPoint());
+		if (!line2)
+			return false;
+
+		extrudeComponent(ID, 1100);
+	}
+	else
+	{
+		calculateUPosition(ID,0.5, 4, 4);
+		Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
+			Point3D::create(UBeam_Location[0], 0, UBeam_Location[1]),
+			Point3D::create(UBeam_Location[2], 0, UBeam_Location[3]));
+		if (!line1)
+			return false;
+
+		Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(), Point3D::create(UBeam_Location[4], 0, UBeam_Location[5]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(), Point3D::create(UBeam_Location[6], 0, UBeam_Location[7]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(), Point3D::create(UBeam_Location[8], 0, UBeam_Location[9]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(), Point3D::create(UBeam_Location[10], 0, UBeam_Location[11]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(), Point3D::create(UBeam_Location[12], 0, UBeam_Location[13]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line7 = sketchLines->addByTwoPoints(line6->endSketchPoint(), Point3D::create(UBeam_Location[14], 0, UBeam_Location[15]));
+		if (!line2)
+			return false;
+		Ptr<SketchLine> line8 = sketchLines->addByTwoPoints(line7->endSketchPoint(), line1->startSketchPoint());
+		if (!line2)
+			return false;
+
+		extrudeComponent(ID, 1100);
+	}
+
+	UBeam_Location.clear();
 }
 
 bool drawLBeam(int ID,int refID, int offSet)
@@ -248,72 +357,10 @@ bool drawVerticalSupportBeams(int ID, double _extrusionLength)
 	return true;
 }
 
-bool drawHorizontalSupportBeams(double _extrusionLength)
+bool drawHorizontalSupportBeams(int ID,double _extrusionLength)
 {
-	for (int i = 4; i < 8; i++)
-	{
-		if (i == 4)
-		{
-			drawRBeam(i,0,0);
-		}
-		else
-		{
-			drawRBeam(i,(i-1),0);
-		}
-		extrudeComponent(i, _extrusionLength);
-	}
-	assembleComponents(4,5);
-	assembleComponents(5,6);
-	assembleComponents(6,7);
-
-	for (int i = 8; i < 12; i++)
-	{
-		if (i == 8)
-		{
-			drawRBeam(i, 0,20);
-		}
-		else
-		{
-			drawRBeam(i, (i - 1),0);
-		}
-		extrudeComponent(i, _extrusionLength);
-	}
-	assembleComponents(8,9);
-	assembleComponents(9,10);
-	assembleComponents(10,11);
-
-	for (int i = 12; i < 16; i++)
-	{
-		if (i == 12)
-		{
-			drawRBeam(i, 0,40);
-		}
-		else
-		{
-			drawRBeam(i, (i - 1),0);
-		}
-		extrudeComponent(i, _extrusionLength);
-	}
-	assembleComponents(12,13);
-	assembleComponents(13,14);
-	assembleComponents(14,15);
-	
-	for (int i = 16; i < 24; i++)
-	{
-		if (i == 16)
-		{
-			drawRBeam(i, 0,60);
-		}
-		else
-		{
-			drawRBeam(i, (i - 1),0);
-		}
-		extrudeComponent(i, _extrusionLength);
-	}
-	assembleComponents(15,16);
-	assembleComponents(15,17);
-	assembleComponents(17,18);
-	
+	drawLBeam(ID, 0, 0);
+	extrudeComponent(ID, tankDiameter);
 	return true;
 }
 
@@ -327,7 +374,6 @@ bool drawDiagonalSupportBeams(int ID, double _extrusionLength)
 bool drawHorizontalUBeams(int ID, double _extrusionLength)
 {
 	drawUBeam(ID,0,0);
-	extrudeComponent(ID, _extrusionLength);
 	return true;
 }
 
@@ -363,24 +409,24 @@ Ptr<Component> drawTankStand(Ptr<Design> design)
 
 	calculatePriciplePositions();
 
-	for (int i = 0; i < 61; i++)
+	for (int i = 0; i < 35; i++)
 	{
 		if (i >= 0 && i < 4)
 		{
 			//Draw Rectangular support beams
-			drawVerticalSupportBeams(i, _tankHead);
+			drawVerticalSupportBeams(i, tankHead);
 		}
-		/*if (i == 4)
+		if (i >=4 && i<12)
 		{
 			//Draw Rectangular horizontal support beams
-			drawHorizontalSupportBeams(50);
+			drawHorizontalSupportBeams(i,tankDiameter);
 		}
-		else if (i >= 24 && i < 39)
+		else if (i >= 12 && i < 20)
 		{
 			//Draw U-beams
-			drawHorizontalUBeams(i, 100);
+			drawHorizontalUBeams(i, tankDiameter * 2);
 		}
-		else if (i >= 39 && i < 51)
+		/*else if (i >= 20 && i < 35)
 		{
 			//Draw L-beams
 			drawDiagonalSupportBeams(i, 100);
