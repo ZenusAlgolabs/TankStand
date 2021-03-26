@@ -4,7 +4,7 @@
 
 #include "Headers.h"
 #include "Common.h"
-#include "Beam.h"
+#include "drawStand.h"
 #include "Inputs.h"
 
 // Event handler for the execute event.
@@ -13,18 +13,24 @@ class StandCommandExecuteEventHandler : public adsk::core::CommandEventHandler
 public:
     void notify(const Ptr<CommandEventArgs>& eventArgs) override
     {
-        if (_structureMaterial->selectedItem()->name() == "Aluminium")
-        {
+        Ptr<Documents> documents = app->documents();
+        if (!documents)
+            return;
 
-        }
-        else if (_structureMaterial->selectedItem()->name() == "Steel")
-        {
+        Ptr<Document> doc = documents->add(DocumentTypes::FusionDesignDocumentType);
+        if (!doc)
+            return;
 
-        }
+        Ptr<Product> product = app->activeProduct();
+        if (!product)
+            return;
 
         // Save the current values as attributes.
-        Ptr<Design> des = app->activeProduct();
-        Ptr<Attributes> attribs = des->attributes();
+        Ptr<Design> design = product;
+        if (!design)
+            return;
+
+        Ptr<Attributes> attribs = design->attributes();
         attribs->add("TankStand", "material", _structureMaterial->selectedItem()->name());
         attribs->add("TankStand", "tankHead", std::to_string(_tankHead->value()));
         attribs->add("TankStand", "tankCapacity", std::to_string(_tankCapacity->value()));
@@ -34,7 +40,7 @@ public:
         double tankCapacity = _tankCapacity->value();
 
         // Create the gear.
-       drawTankStand(des, tankHead, tankCapacity);
+       drawTankStand(design, tankHead, tankCapacity);
     }
 } _standCommandExecute;
 
@@ -50,12 +56,12 @@ public:
             if (_structureMaterial->selectedItem()->name() == "Aluminium")
             {
                 _imgInput->isVisible(false);
-                units = "mm";
+                units = "m";
             }
             else if (_structureMaterial->selectedItem()->name() == "Steel")
             {
                 _imgInput->isVisible(true);
-                units = "mm";
+                units = "m";
             }
 
             // Set each one to it's current value because otherwised if the user 
@@ -104,14 +110,14 @@ public:
     void notify(const Ptr<CommandCreatedEventArgs>& eventArgs) override
     {
         // Verify that a Fusion design is active.
-        Ptr<Design> des = app->activeProduct();
-        if (!checkReturn(des))
+        Ptr<Design> design = app->activeProduct();
+        if (!checkReturn(design))
         {
             ui->messageBox("A Fusion design must be active when invoking this command.");
             return;
         }
 
-        std::string defaultUnits = des->unitsManager()->defaultLengthUnits();
+        std::string defaultUnits = design->unitsManager()->defaultLengthUnits();
 
         // Determine whether to use inches or millimeters as the intial default.
         if (defaultUnits == "in" || defaultUnits == "ft")
@@ -120,7 +126,7 @@ public:
         }
         else
         {
-            units = "mm";
+            units = "m";
         }
 
         // Define the default values and get the previous values from the attributes.
@@ -134,7 +140,7 @@ public:
             material = "Steel";
         }
 
-        Ptr<Attribute> structureMaterialAttribute = des->attributes()->itemByName("TankStand", "material");
+        Ptr<Attribute> structureMaterialAttribute = design->attributes()->itemByName("TankStand", "material");
         if (checkReturn(structureMaterialAttribute))
             material = structureMaterialAttribute->value();
         if (material == "Aluminium")
@@ -143,18 +149,18 @@ public:
         }
         else
         {
-            units = "mm";
+            units = "m";
         }
 
         std::string tankCapacity = "0";
-        Ptr<Attribute> backlashAttrib = des->attributes()->itemByName("TankStand", "tankCapacity");
-        if (checkReturn(backlashAttrib))
-            tankCapacity = backlashAttrib->value();
+        Ptr<Attribute> tankCapacityAttribute = design->attributes()->itemByName("TankStand", "tankCapacity");
+        if (checkReturn(tankCapacityAttribute))
+            tankCapacity = tankCapacityAttribute->value();
 
-        std::string tankHead = std::to_string(0.5 * 2.54);
-        Ptr<Attribute> thicknessAttrib = des->attributes()->itemByName("TankStand", "tankHead");
-        if (checkReturn(thicknessAttrib))
-            tankHead = thicknessAttrib->value();
+        std::string tankHead = std::to_string(2000); //dimensions in cm
+        Ptr<Attribute> tankHeadAttribute = design->attributes()->itemByName("TankStand", "tankHead");
+        if (checkReturn(tankHeadAttribute))
+            tankHead = tankHeadAttribute->value();
 
         Ptr<Command> cmd = eventArgs->command();
         cmd->isExecutedWhenPreEmpted(false);

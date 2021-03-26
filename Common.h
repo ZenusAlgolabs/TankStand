@@ -7,7 +7,7 @@
 // Globals
 Ptr<Application> app;
 Ptr<UserInterface> ui;
-std::string units = "mm";
+std::string units = "m";
 
 // Global command input declarations.
 Ptr<DropDownCommandInput> _waterQuality;
@@ -32,6 +32,8 @@ Ptr<Point3D> centerPoint;
 Ptr<BRepFaces> endFaces;
 Ptr<BRepFace> endFace;
 Ptr<ConstructionPlane> constructionPlane;
+
+double tankDiameter = 100;
 
 bool checkReturn(Ptr<Base> returnObj)
 {

@@ -102,12 +102,15 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Beam.h" />
+    <ClInclude Include="drawStand.h" />
     <ClInclude Include="Calculations.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="Headers.h" />
     <ClInclude Include="Inputs.h" />
+    <ClInclude Include="LBeam.h" />
+    <ClInclude Include="RBeam.h" />
+    <ClInclude Include="UBeam.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
