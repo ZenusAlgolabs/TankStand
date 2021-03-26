@@ -44,17 +44,17 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 			//Draw Rectangular support beams
 			drawVerticalSupportBeams(i, tankHead);
 		}
-		if (i >=4 && i<12)
+		else if (i >= 4 && i < 12)
 		{
-			//Draw Rectangular horizontal support beams
-			drawHorizontalSupportBeams(i,tankDiameter);
+			//Draw L-Shape horizontal support beams
+			drawHorizontalSupportBeams(i, tankDiameter);
 		}
-		else if (i >= 12 && i < 22)
+		else if (i >= 12 && i < 20)
 		{
 			//Draw U-beams
-			drawHorizontalUBeams(i, tankDiameter * 2,tankHead);
+			drawHorizontalUBeams(i, tankDiameter * 2, tankHead);
 		}
-		else if (i >= 22 && i < 30)
+		else if (i >= 20 && i < 30)
 		{
 			//Draw L-beams
 			drawDiagonalSupportBeams(i, 100);
