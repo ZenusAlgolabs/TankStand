@@ -5,9 +5,11 @@
 #include "Headers.h"
 #include "Common.h"
 #include "Inputs.h"
-#include "LBeam.h"
 #include "RBeam.h"
-#include "UBeam.h"
+#include "supportUBeam.h"
+#include "baseUBeam.h"
+#include "Horizontal.h"
+#include "Diagonal.h"
 
 bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 {
@@ -37,28 +39,50 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 
 	calculatePriciplePositions();
 
-	for (int i = 0; i < 30; i++)
+	int i = 0;
+	for (int a = 0; a < 4; a++)
 	{
-		if (i >= 0 && i < 4)
-		{
-			//Draw Rectangular support beams
-			drawVerticalSupportBeams(i, tankHead);
-		}
-		else if (i >= 4 && i < 12)
-		{
-			//Draw L-Shape horizontal support beams
-			drawHorizontalSupportBeams(i, tankDiameter);
-		}
-		else if (i >= 12 && i < 20)
-		{
-			//Draw U-beams
-			drawHorizontalUBeams(i, tankDiameter * 2, tankHead);
-		}
-		else if (i >= 20 && i < 30)
-		{
-			//Draw L-beams
-			drawDiagonalSupportBeams(i, 100);
-		}
+		drawRBeam(i, 0, 0, 1);
+		extrudeComponent(i, tankHead);
+		i++;
+	}
+	for (int b = 0; b < 2; b++)
+	{
+		double width = 4;
+		double thickness = 1;
+
+		drawLeft(i, 0, 0, width, thickness);
+		extrudeComponent(i, tankDiameter * 10 + 80);
+		i++;
+
+		drawRight(i, 0, 0, width, thickness);
+		extrudeComponent(i, tankDiameter * 10 + 80);
+		i++;
+
+		drawUp(i, 0, 0, width, thickness);
+		extrudeComponent(i, tankDiameter * 10 + 80);
+		i++;
+
+		drawDown(i, 0, 0, width, thickness);
+		extrudeComponent(i, tankDiameter * 10 + 80);
+		i++;
+
+	}
+	for (int c = 0; c < 2; c++)
+	{
+		drawSupportUBeam(i, c + 1, 0, 0, tankHead);
+		i++;
+	}
+	for (int d = 0; d < 8; d++)
+	{
+		drawBaseUBeam(i, 0, 0, tankHead);
+		i++;
+	}
+	for (int e = 0; e < 10; e++)
+	{
+		drawDiagonalLBeam(i, 0, 0);
+		extrudeComponent(i, tankDiameter * 10 + 80);
+		i++;
 	}
 
 	//assembleComponents();

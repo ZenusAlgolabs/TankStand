@@ -43,24 +43,24 @@ bool drawLeft(int ID, int refID, int offSet, double width, double thickness)
 	horizontalPosition.push_back(y_6);
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
-		Point3D::create(horizontalPosition[1], horizontalPosition[0], 0),
-		Point3D::create(horizontalPosition[3], horizontalPosition[2], 0));
+		Point3D::create(horizontalPosition[1], 0, horizontalPosition[0]),
+		Point3D::create(horizontalPosition[3], 0, horizontalPosition[2]));
 	if (!line1)
 		return false;
 	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(),
-		Point3D::create(horizontalPosition[5], horizontalPosition[4], 0));
+		Point3D::create(horizontalPosition[5], 0, horizontalPosition[4]));
 	if (!line2)
 		return false;
 	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(),
-		Point3D::create(horizontalPosition[7], horizontalPosition[6], 0));
+		Point3D::create(horizontalPosition[7], 0, horizontalPosition[6]));
 	if (!line3)
 		return false;
 	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(),
-		Point3D::create(horizontalPosition[9], horizontalPosition[8], 0));
+		Point3D::create(horizontalPosition[9], 0, horizontalPosition[8]));
 	if (!line4)
 		return false;
 	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(),
-		Point3D::create(horizontalPosition[11], horizontalPosition[10], 0));
+		Point3D::create(horizontalPosition[11], 0, horizontalPosition[10]));
 	if (!line5)
 		return false;
 	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(),
@@ -107,31 +107,30 @@ bool drawRight(int ID, int refID, int offSet, double width, double thickness)
 	horizontalPosition.push_back(y_6);
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
-		Point3D::create(horizontalPosition[1], horizontalPosition[0], 0),
-		Point3D::create(horizontalPosition[3], horizontalPosition[2], 0));
+		Point3D::create(horizontalPosition[0], 0, horizontalPosition[1]),
+		Point3D::create(horizontalPosition[2], 0, horizontalPosition[3]));
 	if (!line1)
 		return false;
 	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(),
-		Point3D::create(horizontalPosition[5], horizontalPosition[4], 0));
+		Point3D::create(horizontalPosition[4], 0, horizontalPosition[5]));
 	if (!line2)
 		return false;
 	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(),
-		Point3D::create(horizontalPosition[7], horizontalPosition[6], 0));
+		Point3D::create(horizontalPosition[6], 0, horizontalPosition[7]));
 	if (!line3)
 		return false;
 	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(),
-		Point3D::create(horizontalPosition[9], horizontalPosition[8], 0));
+		Point3D::create(horizontalPosition[8], 0, horizontalPosition[9]));
 	if (!line4)
 		return false;
 	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(),
-		Point3D::create(horizontalPosition[11], horizontalPosition[10], 0));
+		Point3D::create(horizontalPosition[10], 0, horizontalPosition[11]));
 	if (!line5)
 		return false;
 	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(),
 		line1->startSketchPoint());
 	if (!line2)
 		return false;
-
 }
 
 bool drawUp(int ID, int refID, int offSet, double width, double thickness)
@@ -172,24 +171,24 @@ bool drawUp(int ID, int refID, int offSet, double width, double thickness)
 	horizontalPosition.push_back(y_6);
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
-		Point3D::create(0, horizontalPosition[0], horizontalPosition[1]),
-		Point3D::create(0, horizontalPosition[2], horizontalPosition[3]));
+		Point3D::create(0, horizontalPosition[1], horizontalPosition[0]),
+		Point3D::create(0, horizontalPosition[3], horizontalPosition[2]));
 	if (!line1)
 		return false;
 	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(),
-		Point3D::create(0, horizontalPosition[4], horizontalPosition[5]));
+		Point3D::create(0,horizontalPosition[5], horizontalPosition[4] ));
 	if (!line2)
 		return false;
 	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(),
-		Point3D::create(0, horizontalPosition[6], horizontalPosition[7]));
+		Point3D::create(0, horizontalPosition[7], horizontalPosition[6]));
 	if (!line3)
 		return false;
 	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(),
-		Point3D::create(0, horizontalPosition[8], horizontalPosition[9]));
+		Point3D::create(0 ,horizontalPosition[9], horizontalPosition[8]));
 	if (!line4)
 		return false;
 	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(),
-		Point3D::create(0, horizontalPosition[10], horizontalPosition[11]));
+		Point3D::create(0, horizontalPosition[11], horizontalPosition[10]));
 	if (!line5)
 		return false;
 	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(),
@@ -236,24 +235,24 @@ bool drawDown(int ID, int refID, int offSet, double width, double thickness)
 	horizontalPosition.push_back(y_6);
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
-		Point3D::create(0, horizontalPosition[0], horizontalPosition[1]),
-		Point3D::create(0, horizontalPosition[2], horizontalPosition[3]));
+		Point3D::create(horizontalPosition[1], 0, horizontalPosition[0]),
+		Point3D::create(horizontalPosition[3], 0, horizontalPosition[2]));
 	if (!line1)
 		return false;
 	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(),
-		Point3D::create(0, horizontalPosition[4], horizontalPosition[5]));
+		Point3D::create(horizontalPosition[5], 0, horizontalPosition[4]));
 	if (!line2)
 		return false;
 	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(),
-		Point3D::create(0, horizontalPosition[6], horizontalPosition[7]));
+		Point3D::create(horizontalPosition[7], 0, horizontalPosition[6]));
 	if (!line3)
 		return false;
 	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(),
-		Point3D::create(0, horizontalPosition[8], horizontalPosition[9]));
+		Point3D::create(horizontalPosition[9], 0, horizontalPosition[8]));
 	if (!line4)
 		return false;
 	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(),
-		Point3D::create(0, horizontalPosition[10], horizontalPosition[11]));
+		Point3D::create(horizontalPosition[11], 0, horizontalPosition[10]));
 	if (!line5)
 		return false;
 	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(),

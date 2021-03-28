@@ -33,7 +33,7 @@ Ptr<BRepFaces> endFaces;
 Ptr<BRepFace> endFace;
 Ptr<ConstructionPlane> constructionPlane;
 
-double tankDiameter = 100;
+double tankDiameter = 10;
 
 bool checkReturn(Ptr<Base> returnObj)
 {

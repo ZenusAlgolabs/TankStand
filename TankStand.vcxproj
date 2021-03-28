@@ -102,6 +102,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="baseUBeam.h" />
     <ClInclude Include="Diagonal.h" />
     <ClInclude Include="drawStand.h" />
     <ClInclude Include="Calculations.h" />
@@ -110,9 +111,8 @@
     <ClInclude Include="Headers.h" />
     <ClInclude Include="Horizontal.h" />
     <ClInclude Include="Inputs.h" />
-    <ClInclude Include="LBeam.h" />
     <ClInclude Include="RBeam.h" />
-    <ClInclude Include="UBeam.h" />
+    <ClInclude Include="supportUBeam.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

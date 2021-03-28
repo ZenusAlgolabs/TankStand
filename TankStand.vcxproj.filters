@@ -10,20 +10,20 @@
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="Headers.h" />
     <ClInclude Include="Inputs.h" />
-    <ClInclude Include="UBeam.h">
+    <ClInclude Include="supportUBeam.h">
       <Filter>UBeam</Filter>
     </ClInclude>
     <ClInclude Include="RBeam.h">
       <Filter>RBeam</Filter>
     </ClInclude>
-    <ClInclude Include="LBeam.h">
+    <ClInclude Include="baseUBeam.h">
+      <Filter>UBeam</Filter>
+    </ClInclude>
+    <ClInclude Include="Diagonal.h">
       <Filter>LBeam</Filter>
     </ClInclude>
     <ClInclude Include="Horizontal.h">
-      <Filter>LBeam\Horizontal</Filter>
-    </ClInclude>
-    <ClInclude Include="Diagonal.h">
-      <Filter>LBeam\Diagonal</Filter>
+      <Filter>LBeam</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -41,12 +41,6 @@
     </Filter>
     <Filter Include="RBeam">
       <UniqueIdentifier>{62e457d1-279b-49a9-8771-8a56fa9d00d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LBeam\Horizontal">
-      <UniqueIdentifier>{3467447b-6f49-48ec-b87c-b8491248f8db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LBeam\Diagonal">
-      <UniqueIdentifier>{5a6159f5-06a5-45a5-9bf2-9749e5ff6116}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

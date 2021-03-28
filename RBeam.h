@@ -3,7 +3,7 @@
 #define  RBeam_h
 #include "Headers.h"
 #include "Common.h"
-#include "UBeam.h"
+#include "supportUBeam.h"
 
 std::vector<int>Principle;
 std::vector<int>P1;
@@ -173,13 +173,5 @@ bool drawRBeam(int ID, int refID, int offSet,double thickness)
 		return false;
 
 }
-
-bool drawVerticalSupportBeams(int ID, double _extrusionLength)
-{
-	drawRBeam(ID, 0, 0,1);
-	extrudeComponent(ID, _extrusionLength);
-	return true;
-}
-
 
 #endif // !RBeam_h
