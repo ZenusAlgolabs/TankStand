@@ -33,7 +33,7 @@ Ptr<BRepFaces> endFaces;
 Ptr<BRepFace> endFace;
 Ptr<ConstructionPlane> constructionPlane;
 
-double tankDiameter = 10;
+double tankDiameter = 100;
 
 bool checkReturn(Ptr<Base> returnObj)
 {
@@ -80,7 +80,7 @@ bool getConstructionPlane(int ID,int refID,int offSet)
 {
 	if (ID == 0)
 	{
-		constructionPlane = rootComp->xZConstructionPlane();
+		constructionPlane = rootComp->xYConstructionPlane();
 		if (!constructionPlane)
 			return false;
 	}
