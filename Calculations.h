@@ -4,12 +4,24 @@
 
 #include "Headers.h"
 
-class Calculations
+bool calculateTankDiameter(double Capacity)
 {
-public:
-	double calculateLoad(double Load)
-	{
 
-	}
-};
+}
+
+bool calculateLoad(double Capacity,std::string Quality)
+{
+
+}
+
+bool calculateBeamHeight(double Load)
+{
+
+}
+
+bool calculateStandDimensions()
+{
+
+}
+
 #endif // !CALCULATIONS_H

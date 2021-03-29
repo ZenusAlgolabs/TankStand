@@ -10,9 +10,11 @@
 #include "baseUBeam.h"
 #include "Horizontal.h"
 #include "Diagonal.h"
+#include "CSV.h"
 
 bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 {
+	Write(1,1,1,1);
 	design->designType(ParametricDesignType);
 
 	// Get the root component of the active design
