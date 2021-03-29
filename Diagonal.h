@@ -27,13 +27,13 @@ bool drawLeftDiagonal(int ID, int refID, int offSet, double width, double thickn
 		x_6, y_6, z_6;
 
 	head = head / 10;
-	x_1 = 0; y_1 = 0; z_1 = 0;
+	x_1 = 0; y_1 = head; z_1 = 0;
 
-	x_2 = x_1; y_2 = y_1; z_2 = z_1 + width;
-	x_3 = x_2 + width; y_3 = y_2+width; z_3 = z_2;
-	x_4 = x_3; y_4 = y_3; z_4 = z_3-thickness;
-	x_5 = x_1 + thickness; y_5 = y_1+thickness; z_5 = z_4;
-	x_6 = x_5; y_6 = y_5; z_6 = z_1;
+	x_2 = x_1; y_2 = y_1 + width; z_2 = z_1+width;
+	x_3 = x_2 + thickness; y_3 = y_2; z_3 = z_2;
+	x_4 = x_3; y_4 = y_1 + thickness; z_4 = z_1+thickness;
+	x_5 = x_1 + width; y_5 = y_4; z_5 = z_4;
+	x_6 = x_5; y_6 = y_1; z_6 = z_1;
 
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
@@ -85,13 +85,13 @@ bool drawRightDiagonal(int ID, int refID, int offSet, double width, double thick
 		x_6, y_6, z_6;
 
 	head = head / 10;
-	x_1 = 0; y_1 = 0; z_1 = 0;
+	x_1 = 0; y_1 = head; z_1 = 0;
 
-	x_2 = x_1; y_2 = y_1; z_2 = z_1 + width;
-	x_3 = x_2 + width; y_3 = y_2 + width; z_3 = z_2;
-	x_4 = x_3; y_4 = y_3; z_4 = z_3 - thickness;
-	x_5 = x_1 + thickness; y_5 = y_1 + thickness; z_5 = z_4;
-	x_6 = x_5; y_6 = y_5; z_6 = z_1;
+	x_2 = x_1; y_2 = y_1 + width; z_2 = z_1 + width;
+	x_3 = x_2 + thickness; y_3 = y_2; z_3 = z_2;
+	x_4 = x_3; y_4 = y_1 + thickness; z_4 = z_1 + thickness;
+	x_5 = x_1 + width; y_5 = y_4; z_5 = z_4;
+	x_6 = x_5; y_6 = y_1; z_6 = z_1;
 
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
@@ -142,13 +142,13 @@ bool drawUpDiagonal(int ID, int refID, int offSet, double width, double thicknes
 		x_6, y_6, z_6;
 
 	head = head / 10;
-	x_1 = 0; y_1 = 0; z_1 = 0;
+	x_1 = 0; y_1 = head; z_1 = 0;
 
-	x_2 = x_1; y_2 = y_1; z_2 = z_1 + width;
-	x_3 = x_2 + width; y_3 = y_2 + width; z_3 = z_2;
-	x_4 = x_3; y_4 = y_3; z_4 = z_3 - thickness;
-	x_5 = x_1 + thickness; y_5 = y_1 + thickness; z_5 = z_4;
-	x_6 = x_5; y_6 = y_5; z_6 = z_1;
+	x_2 = x_1; y_2 = y_1 + width; z_2 = z_1 + width;
+	x_3 = x_2 + thickness; y_3 = y_2; z_3 = z_2;
+	x_4 = x_3; y_4 = y_1 + thickness; z_4 = z_1 + thickness;
+	x_5 = x_1 + width; y_5 = y_4; z_5 = z_4;
+	x_6 = x_5; y_6 = y_1; z_6 = z_1;
 
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
@@ -199,14 +199,13 @@ bool drawDownDiagonal(int ID, int refID, int offSet, double width, double thickn
 		x_6, y_6, z_6;
 
 	head = head / 10;
-	x_1 = 0; y_1 = 0; z_1 = 0;
+	x_1 = 0; y_1 = head; z_1 = 0;
 
-	x_2 = x_1; y_2 = y_1; z_2 = z_1 + width;
-	x_3 = x_2 + width; y_3 = y_2 + width; z_3 = z_2;
-	x_4 = x_3; y_4 = y_3; z_4 = z_3 - thickness;
-	x_5 = x_1 + thickness; y_5 = y_1 + thickness; z_5 = z_4;
-	x_6 = x_5; y_6 = y_5; z_6 = z_1;
-
+	x_2 = x_1; y_2 = y_1 + width; z_2 = z_1 + width;
+	x_3 = x_2 + thickness; y_3 = y_2; z_3 = z_2;
+	x_4 = x_3; y_4 = y_1 + thickness; z_4 = z_1 + thickness;
+	x_5 = x_1 + width; y_5 = y_4; z_5 = z_4;
+	x_6 = x_5; y_6 = y_1; z_6 = z_1;
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
 		Point3D::create(x_1, y_1, z_1),

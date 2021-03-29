@@ -40,7 +40,7 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 	calculatePriciplePositions();
 
 	int i = 0;
-/*
+	
 	//+-----------------------------------------------+
 	// Draw 4 Principle support beams                 |
 	//+-----------------------------------------------+
@@ -98,11 +98,11 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 		extrudeComponent(i, tankDiameter * 10 + 80);
 		i++;
 	}
-*/	
+
 	//+-----------------------------------------------+
 	// Draw Diagonal support beams                    |
 	//+-----------------------------------------------+
-	for (int e = 0; e < 10; e++)
+	for (int e = 0; e < 2; e++)
 	{
 		double width = 4;
 		double thickness = 1;
@@ -112,18 +112,19 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 		drawLeftDiagonal(i, 0, 0, width, thickness, tankHead, e);
 		extrudeComponent(i, tankDiameter);// *10 + 80);
 		i++;
-
-		/*drawRightDiagonal(i, 0, 0, width, thickness, tankHead, e);
+		
+		drawRightDiagonal(i, 0, 0, width, thickness, tankHead, e);
 		extrudeComponent(i, tankDiameter * 10 + 80);
 		i++;
-
+	
 		drawUpDiagonal(i, 0, 0, width, thickness, tankHead, e);
 		extrudeComponent(i, tankDiameter * 10 + 80);
 		i++;
 
 		drawDownDiagonal(i, 0, 0, width, thickness, tankHead, e);
 		extrudeComponent(i, tankDiameter * 10 + 80);
-		i++;*/
+		i++;
+		
 	}
 
 	//assembleComponents();
