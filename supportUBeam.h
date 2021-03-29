@@ -4,8 +4,6 @@
 #include "Headers.h"
 #include "Common.h"
 
-double UBeamStart = 0;
-
 bool drawSupportUBeam(int ID,int location, int refID, int offSet, double thickness, double width, double head)
 {
 	getConstructionPlane(ID, refID, offSet);
@@ -21,7 +19,9 @@ bool drawSupportUBeam(int ID,int location, int refID, int offSet, double thickne
 
 	double x_1, y_1, x_2, y_2, x_3, y_3, x_4, y_4, x_5, y_5, x_6, y_6, x_7, y_7,x_8,y_8;
 
-	x_1 = tankDiameter - (tankDiameter / location); y_1 = head/10;
+	double deviation = (tankDiameter - (2 * beamSize)) / SupportUBeams;
+
+	x_1 = deviation * location; y_1 = head / 10;
 	x_2 = x_1; y_2 = y_1 + width;
 	x_3 = x_2 + width; y_3 = y_2;
 	x_4 = x_3; y_4 = y_1;

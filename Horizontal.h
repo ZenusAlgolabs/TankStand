@@ -19,37 +19,42 @@ bool drawLeft(int ID, int refID, int offSet, double width, double thickness,doub
 	if (!sketchLines)
 		return false;
 
-	double x_1 , y_1 , x_2 , y_2 , x_3 , y_3 , x_4 , y_4 , x_5 , y_5 , x_6 , y_6 ;
+	double x_1, y_1, z_1,
+		x_2, y_2, z_2,
+		x_3, y_3, z_3,
+		x_4, y_4, z_4,
+		x_5, y_5, z_5,
+		x_6, y_6, z_6;
 
 	head = head / 10;
-	x_1 = 0; y_1 = head- (head / location);
+	double deviation = (head / HorizontalSupport);
 
+	x_1 = 0; y_1 = deviation * location;
 	x_2 = x_1; y_2 = y_1 + width;
 	x_3 = x_2 + thickness; y_3 = y_2;
 	x_4 = x_3; y_4 = y_1 + thickness;
 	x_5 = x_1 + width; y_5 = y_4;
 	x_6 = x_5; y_6 = y_1;
 
-
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
-		Point3D::create(x_1, y_1,0),
-		Point3D::create(x_2, y_2, 0));
+		Point3D::create(x_1, y_1, z_1),
+		Point3D::create(x_2, y_2, z_2));
 	if (!line1)
 		return false;
 	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(),
-		Point3D::create(x_3, y_3, 0));
+		Point3D::create(x_3, y_3, z_3));
 	if (!line2)
 		return false;
 	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(),
-		Point3D::create(x_4, y_4, 0));
+		Point3D::create(x_4, y_4, z_4));
 	if (!line3)
 		return false;
 	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(),
-		Point3D::create(x_5, y_5, 0));
+		Point3D::create(x_5, y_5, z_5));
 	if (!line4)
 		return false;
 	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(),
-		Point3D::create(x_6, y_6, 0));
+		Point3D::create(x_6, y_6, z_6));
 	if (!line5)
 		return false;
 	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(),
@@ -72,41 +77,47 @@ bool drawRight(int ID, int refID, int offSet, double width, double thickness, do
 	if (!sketchLines)
 		return false;
 
-	double x_1 , y_1 , x_2 , y_2 , x_3 , y_3 , x_4 , y_4 , x_5 , y_5 , x_6 , y_6 ;
+	double x_1, y_1, z_1,
+		x_2, y_2, z_2,
+		x_3, y_3, z_3,
+		x_4, y_4, z_4,
+		x_5, y_5, z_5,
+		x_6, y_6, z_6;
 
 	head = head / 10;
-	x_1 = 0; y_1 = head - (head / location);
+	double deviation = (head / HorizontalSupport);
+
+	x_1 = tankDiameter + beamSize; y_1 = deviation * location;
 	x_2 = x_1; y_2 = y_1 + thickness;
 	x_3 = x_2 + (width-thickness); y_3 = y_2;
 	x_4 = x_3; y_4 = y_1 + width;
 	x_5 = x_1 + width; y_5 = y_4;
 	x_6 = x_5; y_6 = y_1;
 
-
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
-		Point3D::create(x_1, y_1, 0),
-		Point3D::create(x_2, y_2, 0));
+		Point3D::create(x_1, y_1, z_1),
+		Point3D::create(x_2, y_2, z_2));
 	if (!line1)
 		return false;
 	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(),
-		Point3D::create(x_3, y_3, 0));
+		Point3D::create(x_3, y_3, z_3));
 	if (!line2)
 		return false;
 	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(),
-		Point3D::create(x_4, y_4, 0));
+		Point3D::create(x_4, y_4, z_4));
 	if (!line3)
 		return false;
 	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(),
-		Point3D::create(x_5, y_5, 0));
+		Point3D::create(x_5, y_5, z_5));
 	if (!line4)
 		return false;
 	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(),
-		Point3D::create(x_6, y_6, 0));
+		Point3D::create(x_6, y_6, z_6));
 	if (!line5)
 		return false;
 	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(),
 		line1->startSketchPoint());
-	if (!line2)
+	if (!line6)
 		return false;
 }
 
@@ -123,12 +134,19 @@ bool drawUp(int ID, int refID, int offSet, double width, double thickness, doubl
 	if (!sketchLines)
 		return false;
 
-	double z_1 , y_1 , z_2 , y_2 , z_3 , y_3 , z_4 , y_4 , z_5 , y_5 , z_6 , y_6 ;
+	double x_1, y_1, z_1,
+		x_2, y_2, z_2,
+		x_3, y_3, z_3,
+		x_4, y_4, z_4,
+		x_5, y_5, z_5,
+		x_6, y_6, z_6;
 	width = 4;
 	thickness = 1;
 
 	head = head / 10;
-	z_1 = 0; y_1 = head - (head / location);
+	double deviation = (head / HorizontalSupport);
+
+	z_1 = 0; y_1 = deviation * location;
 	z_2 = z_1; y_2 = y_1 + width;
 	z_3 = z_2 + thickness; y_3 = y_2;
 	z_4 = z_3; y_4 = y_1 + thickness;
@@ -136,29 +154,29 @@ bool drawUp(int ID, int refID, int offSet, double width, double thickness, doubl
 	z_6 = z_5; y_6 = y_1;
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
-		Point3D::create(0, y_1, z_1),
-		Point3D::create(0, y_2, z_2));
+		Point3D::create(x_1, y_1, z_1),
+		Point3D::create(x_2, y_2, z_2));
 	if (!line1)
 		return false;
 	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(),
-		Point3D::create(0, y_3, z_3));
+		Point3D::create(x_3, y_3, z_3));
 	if (!line2)
 		return false;
 	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(),
-		Point3D::create(0, y_4, z_4));
+		Point3D::create(x_4, y_4, z_4));
 	if (!line3)
 		return false;
 	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(),
-		Point3D::create(0, y_5, z_5));
+		Point3D::create(x_5, y_5, z_5));
 	if (!line4)
 		return false;
 	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(),
-		Point3D::create(0, y_6, z_6));
+		Point3D::create(x_6, y_6, z_6));
 	if (!line5)
 		return false;
 	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(),
 		line1->startSketchPoint());
-	if (!line2)
+	if (!line6)
 		return false;
 }
 
@@ -175,12 +193,19 @@ bool drawDown(int ID, int refID, int offSet, double width, double thickness, dou
 	if (!sketchLines)
 		return false;
 
-	double z_1 , y_1 , z_2 , y_2 , z_3 , y_3 , z_4 , y_4 , z_5 , y_5 , z_6 , y_6 ;
+	double x_1, y_1, z_1,
+		x_2, y_2, z_2,
+		x_3, y_3, z_3,
+		x_4, y_4, z_4,
+		x_5, y_5, z_5,
+		x_6, y_6, z_6;
 	width = 4;
 	thickness = 1;
 
 	head = head / 10;
-	z_1 = 0; y_1 = head - (head / location);
+	double deviation = (head / HorizontalSupport);
+
+	z_1 = tankDiameter + beamSize; y_1 = deviation * location;
 	z_2 = z_1; y_2 = y_1 + thickness;
 	z_3 = z_2 + (width - thickness); y_3 = y_2;
 	z_4 = z_3; y_4 = y_1 + width;
@@ -188,29 +213,29 @@ bool drawDown(int ID, int refID, int offSet, double width, double thickness, dou
 	z_6 = z_5; y_6 = y_1;
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
-		Point3D::create(0, y_1, z_1),
-		Point3D::create(0, y_2, z_2));
+		Point3D::create(x_1, y_1, z_1),
+		Point3D::create(x_2, y_2, z_2));
 	if (!line1)
 		return false;
 	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(),
-		Point3D::create(0, y_3, z_3));
+		Point3D::create(x_3, y_3, z_3));
 	if (!line2)
 		return false;
 	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(),
-		Point3D::create(0, y_4, z_4));
+		Point3D::create(x_4, y_4, z_4));
 	if (!line3)
 		return false;
 	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(),
-		Point3D::create(0, y_5, z_5));
+		Point3D::create(x_5, y_5, z_5));
 	if (!line4)
 		return false;
 	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(),
-		Point3D::create(0, y_6, z_6));
+		Point3D::create(x_6, y_6, z_6));
 	if (!line5)
 		return false;
 	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(),
 		line1->startSketchPoint());
-	if (!line2)
+	if (!line6)
 		return false;
 }
 

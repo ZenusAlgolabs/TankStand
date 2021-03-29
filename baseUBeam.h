@@ -4,8 +4,6 @@
 #include "Headers.h"
 #include "Common.h"
 
-std::vector<double>baseUBeam_Location;
-
 bool drawBaseUBeam(int ID, int location, int refID, int offSet, double thickness, double width, double head)
 {
 	getConstructionPlane(ID, refID, offSet);
@@ -21,7 +19,8 @@ bool drawBaseUBeam(int ID, int location, int refID, int offSet, double thickness
 
 	double z_1, y_1, z_2, y_2, z_3, y_3, z_4, y_4, z_5, y_5, z_6, y_6, z_7, y_7, z_8, y_8;
 
-	z_1 = tankDiameter - (tankDiameter / location); y_1 = head/10;
+	double deviation = (tankDiameter - (2 * beamSize)) / BaseUBeams;
+	z_1 = deviation * location; y_1 = head/10;
 	z_2 = z_1; y_2 = y_1 + width;
 	z_3 = z_2 + width; y_3 = y_2;
 	z_4 = z_3; y_4 = y_1;

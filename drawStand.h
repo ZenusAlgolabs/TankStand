@@ -55,7 +55,7 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 	//Draw Tank platform beams                        |
 	//1. Connecting beams                             |
 	//+-----------------------------------------------+
-	for (int c = 0; c < 4; c++)
+	for (int c = 0; c < SupportUBeams; c++)
 	{
 		drawSupportUBeam(i, (c + 1), 0, 0, 1, 4, tankHead);
 		extrudeComponent(i, (tankDiameter * 10) + (80));
@@ -65,7 +65,7 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 	//+-----------------------------------------------+
 	//2. Base beams                                   |
 	//+-----------------------------------------------+
-	for (int d = 0; d < 8; d++)
+	for (int d = 0; d < BaseUBeams; d++)
 	{
 		drawBaseUBeam(i, (d + 1), 0, 0, 1, 4, tankHead);
 		extrudeComponent(i, (tankDiameter * 10) + (80));
@@ -73,14 +73,13 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 	}
 	
 	//+-----------------------------------------------+
-	// Draw structure support beams                   |
+	//     Draw structure support beams               |
+	// 	   Horizontal Support structures              |
 	//+-----------------------------------------------+
-	for (int b = 0; b < 4; b++)
+	for (int b = 1; b < (HorizontalSupport+1); b++)
 	{
 		double width = 4;
 		double thickness = 1;
-
-		b++;
 
 		drawLeft(i, 0, 0, width, thickness, tankHead, b);
 		extrudeComponent(i, tankDiameter * 10 + 80);
