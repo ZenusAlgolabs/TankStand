@@ -5,6 +5,7 @@
 #include "Headers.h"
 #include "Common.h"
 #include "Inputs.h"
+#include "Calculations.h"
 #include "RBeam.h"
 #include "supportUBeam.h"
 #include "baseUBeam.h"
@@ -42,7 +43,7 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 	calculatePriciplePositions();
 
 	int i = 0;
-	
+
 	//+-----------------------------------------------+
 	// Draw 4 Principle support beams                 |
 	//+-----------------------------------------------+
@@ -103,27 +104,28 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 	//+-----------------------------------------------+
 	// Draw Diagonal support beams                    |
 	//+-----------------------------------------------+
-	for (int e = 0; e < 2; e++)
+
+	calculateDiagonalExtrusionLength(tankHead,tankDiameter,HorizontalSupport);
+	calculateDiagonalSlant(4, tankDiameter, diagonalExtrusionLength);
+	for (int e = 1; e < (DiagonalSupport+1); e++)
 	{
 		double width = 4;
 		double thickness = 1;
 
-		e++;
-
-		drawLeftDiagonal(i, 0, 0, width, thickness, tankHead, e);
-		extrudeComponent(i, tankDiameter);// *10 + 80);
-		i++;
-		
-		drawRightDiagonal(i, 0, 0, width, thickness, tankHead, e);
-		extrudeComponent(i, tankDiameter * 10 + 80);
+		drawLeftDiagonal(i, 0, 0, width, thickness, tankHead, e,diagonalSlant);
+		extrudeComponent(i, diagonalExtrusionLength);
 		i++;
 	
-		drawUpDiagonal(i, 0, 0, width, thickness, tankHead, e);
-		extrudeComponent(i, tankDiameter * 10 + 80);
+		drawRightDiagonal(i, 0, 0, width, thickness, tankHead, e, diagonalSlant);
+		extrudeComponent(i, diagonalExtrusionLength);
 		i++;
 
-		drawDownDiagonal(i, 0, 0, width, thickness, tankHead, e);
-		extrudeComponent(i, tankDiameter * 10 + 80);
+		drawUpDiagonal(i, 0, 0, width, thickness, tankHead, e, diagonalSlant);
+		extrudeComponent(i, diagonalExtrusionLength);
+		i++;
+		
+		drawDownDiagonal(i, 0, 0, width, thickness, tankHead, e, diagonalSlant);
+		extrudeComponent(i, diagonalExtrusionLength);
 		i++;
 		
 	}

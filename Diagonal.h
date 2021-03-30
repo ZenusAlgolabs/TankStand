@@ -6,7 +6,7 @@
 #include "Common.h"
 
 // X Y axis
-bool drawLeftDiagonal(int ID, int refID, int offSet, double width, double thickness, double head, int location)
+bool drawLeftDiagonal(int ID, int refID, int offSet, double width, double thickness, double head, int location,double slant)
 {
 	getConstructionPlane(ID, refID, offSet);
 	getSubOccurrence(ID);
@@ -19,22 +19,22 @@ bool drawLeftDiagonal(int ID, int refID, int offSet, double width, double thickn
 	if (!sketchLines)
 		return false;
 
-	double x_1, y_1,z_1,
-		x_2, y_2, z_2, 
+	double x_1, y_1, z_1,
+		x_2, y_2, z_2,
 		x_3, y_3, z_3,
 		x_4, y_4, z_4,
 		x_5, y_5, z_5,
 		x_6, y_6, z_6;
 
 	head = head / 10;
-	x_1 = 0; y_1 = head; z_1 = 0;
+	double deviation = (head / DiagonalSupport);
 
-	x_2 = x_1; y_2 = y_1 + width; z_2 = z_1+width;
+	x_1 = 0; y_1 = deviation * location; z_1 = 0;
+	x_2 = x_1; y_2 = y_1 + width; z_2 = z_1+(width/2);
 	x_3 = x_2 + thickness; y_3 = y_2; z_3 = z_2;
-	x_4 = x_3; y_4 = y_1 + thickness; z_4 = z_1+thickness;
+	x_4 = x_3; y_4 = y_1 + thickness; z_4 = z_1 + (thickness/2);
 	x_5 = x_1 + width; y_5 = y_4; z_5 = z_4;
 	x_6 = x_5; y_6 = y_1; z_6 = z_1;
-
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
 		Point3D::create(x_1, y_1, z_1),
@@ -64,7 +64,7 @@ bool drawLeftDiagonal(int ID, int refID, int offSet, double width, double thickn
 }
 
 // X Y axis
-bool drawRightDiagonal(int ID, int refID, int offSet, double width, double thickness, double head, int location)
+bool drawRightDiagonal(int ID, int refID, int offSet, double width, double thickness, double head, int location, double slant)
 {
 	getConstructionPlane(ID, refID, offSet);
 	getSubOccurrence(ID);
@@ -85,14 +85,14 @@ bool drawRightDiagonal(int ID, int refID, int offSet, double width, double thick
 		x_6, y_6, z_6;
 
 	head = head / 10;
-	x_1 = 0; y_1 = head; z_1 = 0;
+	double deviation = (head / DiagonalSupport);
 
-	x_2 = x_1; y_2 = y_1 + width; z_2 = z_1 + width;
-	x_3 = x_2 + thickness; y_3 = y_2; z_3 = z_2;
-	x_4 = x_3; y_4 = y_1 + thickness; z_4 = z_1 + thickness;
+	x_1 = tankDiameter + beamSize; y_1 = deviation * location; z_1 = 0;
+	x_2 = x_1; y_2 = y_1 + thickness; z_2 = z_1 + thickness / 2;
+	x_3 = x_2 + (width - thickness); y_3 = y_2; z_3 = z_2;
+	x_4 = x_3; y_4 = y_1 + width; z_4 = z_1 + width / 2;
 	x_5 = x_1 + width; y_5 = y_4; z_5 = z_4;
 	x_6 = x_5; y_6 = y_1; z_6 = z_1;
-
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
 		Point3D::create(x_1, y_1, z_1),
@@ -121,7 +121,7 @@ bool drawRightDiagonal(int ID, int refID, int offSet, double width, double thick
 		return false;
 }
 
-bool drawUpDiagonal(int ID, int refID, int offSet, double width, double thickness, double head, int location)
+bool drawUpDiagonal(int ID, int refID, int offSet, double width, double thickness, double head, int location, double slant)
 {
 	getConstructionPlane(ID, refID, offSet);
 	getSubOccurrence(ID);
@@ -140,16 +140,18 @@ bool drawUpDiagonal(int ID, int refID, int offSet, double width, double thicknes
 		x_4, y_4, z_4,
 		x_5, y_5, z_5,
 		x_6, y_6, z_6;
+	width = 4;
+	thickness = 1;
 
 	head = head / 10;
-	x_1 = 0; y_1 = head; z_1 = 0;
+	double deviation = (head / DiagonalSupport);
 
-	x_2 = x_1; y_2 = y_1 + width; z_2 = z_1 + width;
-	x_3 = x_2 + thickness; y_3 = y_2; z_3 = z_2;
-	x_4 = x_3; y_4 = y_1 + thickness; z_4 = z_1 + thickness;
-	x_5 = x_1 + width; y_5 = y_4; z_5 = z_4;
-	x_6 = x_5; y_6 = y_1; z_6 = z_1;
-
+	z_1 = 0; y_1 = deviation * location; x_1 = 0;
+	z_2 = z_1; y_2 = y_1 + width; x_2 = x_1 + width / 2;
+	z_3 = z_2 + thickness; y_3 = y_2; x_3 = x_2;
+	z_4 = z_3; y_4 = y_1 + thickness; x_4 = x_1 + thickness / 2;
+	z_5 = z_1 + width; y_5 = y_4; x_5 = x_4;
+	z_6 = z_5; y_6 = y_1; x_6 = x_1;
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
 		Point3D::create(x_1, y_1, z_1),
@@ -178,7 +180,7 @@ bool drawUpDiagonal(int ID, int refID, int offSet, double width, double thicknes
 		return false;
 }
 
-bool drawDownDiagonal(int ID, int refID, int offSet, double width, double thickness, double head, int location)
+bool drawDownDiagonal(int ID, int refID, int offSet, double width, double thickness, double head, int location, double slant)
 {
 	getConstructionPlane(ID, refID, offSet);
 	getSubOccurrence(ID);
@@ -197,15 +199,18 @@ bool drawDownDiagonal(int ID, int refID, int offSet, double width, double thickn
 		x_4, y_4, z_4,
 		x_5, y_5, z_5,
 		x_6, y_6, z_6;
+	width = 4;
+	thickness = 1;
 
 	head = head / 10;
-	x_1 = 0; y_1 = head; z_1 = 0;
+	double deviation = (head / DiagonalSupport);
 
-	x_2 = x_1; y_2 = y_1 + width; z_2 = z_1 + width;
-	x_3 = x_2 + thickness; y_3 = y_2; z_3 = z_2;
-	x_4 = x_3; y_4 = y_1 + thickness; z_4 = z_1 + thickness;
-	x_5 = x_1 + width; y_5 = y_4; z_5 = z_4;
-	x_6 = x_5; y_6 = y_1; z_6 = z_1;
+	z_1 = tankDiameter + beamSize; y_1 = deviation * location; x_1 = 0;
+	z_2 = z_1; y_2 = y_1 + thickness; x_2 = x_1 + thickness / 2;
+	z_3 = z_2 + (width - thickness); y_3 = y_2; x_3 = x_2;
+	z_4 = z_3; y_4 = y_1 + width; x_4 = x_1 + width / 2;
+	z_5 = z_1 + width; y_5 = y_4; x_5 = x_4;
+	z_6 = z_5; y_6 = y_1; x_6 = x_1;
 
 	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
 		Point3D::create(x_1, y_1, z_1),

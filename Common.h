@@ -39,6 +39,12 @@ int SupportUBeams = 4;
 int BaseUBeams = 8;
 int HorizontalSupport = 4;
 
+int DiagonalSupport = 4;
+double diagonalExtrusionLength = 0;
+double diagonalSlant_a = 0;
+double diagonalSlant_b = 0;
+double diagonalSlant = 0;
+
 bool checkReturn(Ptr<Base> returnObj)
 {
     if (returnObj)

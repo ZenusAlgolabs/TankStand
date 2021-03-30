@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseUBeam.h" />
+    <ClInclude Include="CSV.h" />
     <ClInclude Include="Diagonal.h" />
     <ClInclude Include="drawStand.h" />
     <ClInclude Include="Calculations.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="Inputs.h" />
     <ClInclude Include="RBeam.h" />
     <ClInclude Include="supportUBeam.h" />
+    <ClInclude Include="WriteCSV.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
