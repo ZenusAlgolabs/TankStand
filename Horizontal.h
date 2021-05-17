@@ -2,7 +2,6 @@
 #ifndef HORIZONTAL_H
 #define HORIZONTAL_H
 
-#include "Headers.h"
 #include "Common.h"
 
 // X Y axis

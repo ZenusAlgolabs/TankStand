@@ -2,10 +2,38 @@
 #ifndef EVENTS_HANDLER_H
 #define EVENTS_HANDLER_H
 
-#include "Headers.h"
 #include "Common.h"
 #include "drawStand.h"
-#include "Inputs.h"
+
+std::string material;
+std::string quality;
+
+bool getCommandInputValue(Ptr<CommandInput> commandInput, std::string unitType, double* value)
+{
+    Ptr<ValueCommandInput> valCommandInput = commandInput;
+    if (!commandInput)
+    {
+        *value = 0;
+        displayErrorMessage("");
+        return false;
+    }
+
+    // Verify that the expression is valid.
+    Ptr<Design> des = app->activeProduct();
+    Ptr<UnitsManager> unitsMgr = des->unitsManager();
+
+    if (unitsMgr->isValidExpression(valCommandInput->expression(), unitType))
+    {
+        *value = unitsMgr->evaluateExpression(valCommandInput->expression(), unitType);
+        return true;
+    }
+    else
+    {
+        *value = 0;
+        displayErrorMessage("");
+        return false;
+    }
+}
 
 // Event handler for the execute event.
 class StandCommandExecuteEventHandler : public adsk::core::CommandEventHandler

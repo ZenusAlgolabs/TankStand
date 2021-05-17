@@ -2,7 +2,6 @@
 #ifndef CALCULATIONS_H
 #define CALCULATIONS_H
 
-#include "Headers.h"
 #include "Common.h"
 
 bool calculateTankDiameter(double Capacity)

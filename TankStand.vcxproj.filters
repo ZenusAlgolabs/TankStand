@@ -7,31 +7,20 @@
     <ClInclude Include="drawStand.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="EventHandler.h" />
-    <ClInclude Include="Headers.h" />
-    <ClInclude Include="Inputs.h" />
-    <ClInclude Include="supportUBeam.h">
-      <Filter>UBeam</Filter>
-    </ClInclude>
-    <ClInclude Include="RBeam.h">
-      <Filter>RBeam</Filter>
-    </ClInclude>
-    <ClInclude Include="baseUBeam.h">
-      <Filter>UBeam</Filter>
-    </ClInclude>
-    <ClInclude Include="Diagonal.h">
-      <Filter>LBeam</Filter>
-    </ClInclude>
-    <ClInclude Include="Horizontal.h">
-      <Filter>LBeam</Filter>
+    <ClInclude Include="Beam.h">
+      <Filter>Beam</Filter>
     </ClInclude>
     <ClInclude Include="Calculations.h">
       <Filter>Calculations</Filter>
     </ClInclude>
-    <ClInclude Include="WriteCSV.h">
-      <Filter>CSV</Filter>
-    </ClInclude>
     <ClInclude Include="CSV.h">
       <Filter>CSV</Filter>
+    </ClInclude>
+    <ClInclude Include="Horizontal.h">
+      <Filter>Beam</Filter>
+    </ClInclude>
+    <ClInclude Include="Diagonal.h">
+      <Filter>Beam</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -44,17 +33,14 @@
     <Filter Include="UBeam">
       <UniqueIdentifier>{99f4d08a-7f9c-429e-833c-7bca8f589015}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LBeam">
-      <UniqueIdentifier>{7bcd444c-1695-48dc-acd3-bd77970cc004}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="RBeam">
-      <UniqueIdentifier>{62e457d1-279b-49a9-8771-8a56fa9d00d6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Calculations">
       <UniqueIdentifier>{2f17c838-1827-450b-9a3a-5884ed8cb59a}</UniqueIdentifier>
     </Filter>
     <Filter Include="CSV">
       <UniqueIdentifier>{4ffcb567-d89a-42ad-98b9-92a41b52faf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Beam">
+      <UniqueIdentifier>{62e457d1-279b-49a9-8771-8a56fa9d00d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

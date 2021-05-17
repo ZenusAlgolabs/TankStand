@@ -1,8 +1,19 @@
 #pragma once
 #ifndef COMMON_H
 #define COMMON_H
+#define _USE_MATH_DEFINES
 
-#include "Headers.h"
+#include <Core/CoreAll.h>
+#include <Fusion/FusionAll.h>
+#include <sstream>
+#include <math.h>
+#include <memory>
+#include <vector>
+#include <string>
+#include <windows.h>
+
+using namespace adsk::core;
+using namespace adsk::fusion;
 
 // Globals
 Ptr<Application> app;

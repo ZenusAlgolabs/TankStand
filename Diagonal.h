@@ -2,7 +2,6 @@
 #ifndef DIAGONAL_H
 #define DIAGONAL_H
 
-#include "Headers.h"
 #include "Common.h"
 
 // X Y axis

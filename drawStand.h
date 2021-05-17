@@ -2,20 +2,20 @@
 #ifndef BEAM_H
 #define BEAM_H
 
-#include "Headers.h"
 #include "Common.h"
-#include "Inputs.h"
 #include "Calculations.h"
-#include "RBeam.h"
-#include "supportUBeam.h"
-#include "baseUBeam.h"
+#include "Beam.h"
 #include "Horizontal.h"
 #include "Diagonal.h"
 #include "CSV.h"
 
 bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 {
-	Write(1,1,1,1);
+	Write(tankCapacity, "Steel", "Salty", tankHead, 0, 0, 0, 0, 0, 0, 0);
+	for (size_t i = 0; i < 24; i++)
+	{
+		//Write(NULL, NULL, NULL, NULL, i, "UType", i + 2, i * 2.78, i * 0.65, 1, "Ubeam for supporting columns");
+	}
 	design->designType(ParametricDesignType);
 
 	// Get the root component of the active design

@@ -1,6 +1,4 @@
-#include "Headers.h"
 #include "Common.h"
-#include "Inputs.h"
 #include "EventHandler.h"
 
 extern "C" XI_EXPORT bool run(const char* context)
