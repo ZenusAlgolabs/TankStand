@@ -46,6 +46,7 @@ Ptr<ConstructionPlane> constructionPlane;
 
 double tankDiameter = 100;
 double beamSize = 4;
+int PrincipleBeams = 4;
 int SupportUBeams = 4;
 int BaseUBeams = 8;
 int HorizontalSupport = 4;

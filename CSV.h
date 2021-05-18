@@ -146,7 +146,7 @@ protected:
 
 };
 
-int Write(double Capacity, string Material, string WaterQuality, double TankHead, int BeamID, std::string Type, int Quantity, double Length, double  Width, double  Thickness, std::string Comment) {
+int Write(double Capacity, string Material, string WaterQuality, double TankHead, int BeamID, std::string Type, int Quantity, double Length, double  Width, double  Thickness, std::string Comment, bool CostAnalysis) {
 	CSVWriter csv;
 	CSVWriter csv_1;
 	CSVWriter csv_2;
@@ -158,26 +158,38 @@ int Write(double Capacity, string Material, string WaterQuality, double TankHead
 	int Results;
 	struct stat buffer;
 
-	std::string FileName = "C:/Users/Gachanja/Documents/Data.csv";
+	std::string FileName = "D:/Data.csv";
 	Results = stat(FileName.c_str(), &buffer);
 
 	if (Results == DATABASE_EXISTS) { //Prepare the data to be written to file...
-		csv << BeamID << Type << Quantity << Length << Width << Thickness << Comment;
+		if (CostAnalysis == true)
+		{
+			csv << "\n\nCost Analysis"
+				<< "\nBeam" << "Total Length" << "Cost/Meter" << "Total Cost"
+				<< "\nRBeam" << 100 << 25.6 << 2560
+				<< "\nLBeam" << 200 << 25.6 << 2560
+				<< "\nUBeam" << 1000 << 25.6 << 2560
+				<< "\nTotal Cost" << "" << "" << (2560 * 3);
+		}
+		else
+		{
+			csv << BeamID << Type << Quantity << Length << Width << Thickness << Comment;
+		}
 
 		//Since the data is being added to a database, append data to existing file if file is found
 		csv.writeToFile(FileName.c_str(), true);
 	}
 	else {
-		csv << "Capacity" << NULL << Capacity;
+		csv << "Inputs"
+			<< "\nCapacity" << "" << Capacity
+			<< "\nMaterial" << "" << Material
+			<< "\nWater Quality" << "" << WaterQuality
+			<< "\nTankHead" << "" << TankHead
+			<< "\n\nBeam Dimensions"
+			<< "\nBeamID" << "Type" << "Quantity" << "Length" << "Width" << "Thickness" << "Comment";
 		csv.writeToFile(FileName.c_str());
-		csv_1 << "Material" << NULL << Material;
-		csv_1.writeToFile(FileName.c_str());
-		csv_2 << "Water Quality" << NULL << WaterQuality;
-		csv_2.writeToFile(FileName.c_str());
-		csv_3 << "TankHead" << NULL << TankHead;
-		csv_3.writeToFile(FileName.c_str());
-		csv_4 << "BeamID" << "Type" << "Quantity" << "Length" << "Width" << "Thickness" << "Comment";
-		csv_4.writeToFile(FileName.c_str());
 	}
+
+
 	return 0;
 }

@@ -11,11 +11,26 @@
 
 bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 {
-	Write(tankCapacity, "Steel", "Salty", tankHead, 0, 0, 0, 0, 0, 0, 0);
-	for (size_t i = 0; i < 24; i++)
+	int csv_count = 1;
+	Write(1345.6, "Steel", "Salty", 20.0, 0, " ", 0, 0, 0, 0, " ",false);
+
+	for (size_t i = 0; i < PrincipleBeams; i++)
 	{
-		//Write(NULL, NULL, NULL, NULL, i, "UType", i + 2, i * 2.78, i * 0.65, 1, "Ubeam for supporting columns");
+		Write(0.0, " ", " ", 0.0, csv_count, "RectangularTube", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
+		csv_count++;
 	}
+	for (size_t i = 0; i < HorizontalSupport; i++)
+	{
+		Write(0.0, " ", " ", 0.0, csv_count, "UType", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
+		csv_count++;
+	}
+	for (size_t i = 0; i < DiagonalSupport; i++)
+	{
+		Write(0.0, " ", " ", 0.0, csv_count, "LType", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
+		csv_count++;
+	}
+	Write(0.0, " ", " ", 0.0, 0, " ", 0, 0, 0, 0, " ", true);
+
 	design->designType(ParametricDesignType);
 
 	// Get the root component of the active design
@@ -47,7 +62,7 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 	//+-----------------------------------------------+
 	// Draw 4 Principle support beams                 |
 	//+-----------------------------------------------+
-	for (int a = 0; a < 4; a++)
+	for (int a = 0; a < PrincipleBeams; a++)
 	{
 		drawRBeam(i, 0, 0, 1);
 		extrudeComponent(i, tankHead);
