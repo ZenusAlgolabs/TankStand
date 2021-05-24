@@ -4,19 +4,37 @@
 
 #include "Common.h"
 
-bool calculateTankDiameter(double Capacity)
+float calculateTankDiameter(float Capacity, std::string TankType, float BaseLength, float BaseWidth)
 {
+	float LongSide = 0.0;
+	float ShortSide = 0.0;
 
+	if (TankType == "Rectangular")
+	{
+
+	}
+	else if (TankType == "Circular")
+	{
+
+	}
+	return 0.0;
 }
 
-bool calculateLoad(double Capacity,std::string Quality)
+float calculateLoad(float Capacity, std::string Quality)
 {
-
+	float density = 1000;
+	float load = 0.0;
+	if (Quality == "salty")
+	{
+		density = 1200;
+	}
+	load = Capacity * density;
+	return(load);
 }
 
-bool calculateBeamHeight(double Load)
+float calculateBeamHeight(float Head, float Max_Beam_Length)
 {
-
+	return (Head / Max_Beam_Length);
 }
 
 bool calculateStandDimensions()
@@ -24,15 +42,15 @@ bool calculateStandDimensions()
 
 }
 
-bool calculateDiagonalExtrusionLength(double head,double diameter,int h_support)
+bool calculateDiagonalExtrusionLength(float head,float diameter,int h_support)
 {
-	double deviation = (head / h_support);
+	float deviation = (head / h_support);
 
 	diagonalExtrusionLength = pow((pow(deviation, 2) + pow(((diameter + (2 * beamSize))*10), 2)), 0.5);
 	return true;
 }
 
-bool calculateDiagonalSlant(double width, double diameter, double exLenghth)
+bool calculateDiagonalSlant(float width, float diameter, float exLenghth)
 {
 	//diagonalSlant = width / cos(acos(diameter / exLenghth));
 	return true;

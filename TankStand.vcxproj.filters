@@ -10,18 +10,14 @@
     <ClInclude Include="Beam.h">
       <Filter>Beam</Filter>
     </ClInclude>
-    <ClInclude Include="Calculations.h">
-      <Filter>Calculations</Filter>
-    </ClInclude>
-    <ClInclude Include="CSV.h">
-      <Filter>CSV</Filter>
-    </ClInclude>
     <ClInclude Include="Horizontal.h">
       <Filter>Beam</Filter>
     </ClInclude>
     <ClInclude Include="Diagonal.h">
       <Filter>Beam</Filter>
     </ClInclude>
+    <ClInclude Include="CSV.h" />
+    <ClInclude Include="Calculations.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
@@ -30,15 +26,6 @@
     <Text Include="TankStand.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="UBeam">
-      <UniqueIdentifier>{99f4d08a-7f9c-429e-833c-7bca8f589015}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Calculations">
-      <UniqueIdentifier>{2f17c838-1827-450b-9a3a-5884ed8cb59a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CSV">
-      <UniqueIdentifier>{4ffcb567-d89a-42ad-98b9-92a41b52faf0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Beam">
       <UniqueIdentifier>{62e457d1-279b-49a9-8771-8a56fa9d00d6}</UniqueIdentifier>
     </Filter>

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef RBeam_h
-#define  RBeam_h
+#ifndef Beam_h
+#define Beam_h
 
 #include "Common.h"
 
@@ -326,4 +326,4 @@ bool drawRBeam(int ID, int refID, int offSet, double thickness)
 
 }
 
-#endif // !RBeam_h
+#endif // !Beam_h
