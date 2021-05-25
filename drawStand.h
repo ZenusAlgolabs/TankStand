@@ -5,32 +5,31 @@
 #include "Common.h"
 #include "Calculations.h"
 #include "Beam.h"
-#include "Horizontal.h"
-#include "Diagonal.h"
+#include "VerticalSupport.h"
 #include "CSV.h"
 
 bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 {
-	int csv_count = 1;
-	Write(1345.6, "Steel", "Salty", 20.0, 0, " ", 0, 0, 0, 0, " ",false);
+	/*int csv_count = 1;
+	Write(1345.6, "Steel", "Salty", 20.0, 0, " ", 0, 0, 0, 0, " ", false);
 
 	for (size_t i = 0; i < PrincipleBeams; i++)
 	{
 		Write(0.0, " ", " ", 0.0, csv_count, "RectangularTube", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
 		csv_count++;
 	}
-	for (size_t i = 0; i < HorizontalSupport; i++)
+	for (size_t i = 0; i < supportCount; i++)
 	{
 		Write(0.0, " ", " ", 0.0, csv_count, "UType", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
 		csv_count++;
 	}
-	for (size_t i = 0; i < DiagonalSupport; i++)
+	for (size_t i = 0; i < supportCount; i++)
 	{
 		Write(0.0, " ", " ", 0.0, csv_count, "LType", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
 		csv_count++;
 	}
 	Write(0.0, " ", " ", 0.0, 0, " ", 0, 0, 0, 0, " ", true);
-
+	*/
 	design->designType(ParametricDesignType);
 
 	// Get the root component of the active design
@@ -55,98 +54,71 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 	Principle.push_back(4);
 	Principle.push_back(0);
 
-	calculatePriciplePositions();
 
 	int i = 0;
-
+	double deviation = 0.0;
+	tankDiameter = pow((tankCapacity / (3.145167 * 2)), 0.5);
+	calculatePriciplePositions();
 	//+-----------------------------------------------+
 	// Draw 4 Principle support beams                 |
 	//+-----------------------------------------------+
 	for (int a = 0; a < PrincipleBeams; a++)
 	{
-		drawRBeam(i, 0, 0, 1);
+		drawRBeam(i, 0, 0, thickness);
 		extrudeComponent(i, tankHead);
-		i++;
-	}
-
-	//+-----------------------------------------------+
-	//Draw Tank platform beams                        |
-	//1. Connecting beams                             |
-	//+-----------------------------------------------+
-	for (int c = 0; c < SupportUBeams; c++)
-	{
-		drawSupportUBeam(i, (c + 1), 0, 0, 1, 4, tankHead);
-		extrudeComponent(i, (tankDiameter * 10) + (80));
-		i++;
-	}
-
-	//+-----------------------------------------------+
-	//2. Base beams                                   |
-	//+-----------------------------------------------+
-	for (int d = 0; d < BaseUBeams; d++)
-	{
-		drawBaseUBeam(i, (d + 1), 0, 0, 1, 4, tankHead);
-		extrudeComponent(i, (tankDiameter * 10) + (80));
 		i++;
 	}
 	
 	//+-----------------------------------------------+
+	//Draw Tank platform beams                        |
+	//+-----------------------------------------------+
+	deviation = tankDiameter / (uBeamsCount + 1);
+	for (int count = 0; count < 2; count++)
+	{
+		for (int c = 0; c < uBeamsCount; c++)
+		{
+			drawUBeam(count, i, (c + 1), 0, 0, thickness, width, tankHead, deviation);
+			extrudeComponent(i, (tankDiameter * 10) + (80));
+			i++;
+		}
+	}
+	
+    //+-----------------------------------------------+
 	//     Draw structure support beams               |
 	// 	   Horizontal Support structures              |
 	//+-----------------------------------------------+
-	for (int b = 1; b < (HorizontalSupport+1); b++)
+	deviation = ((tankHead / 10) / supportCount);
+	for (int b = 1; b < (supportCount + 1); b++)
 	{
-		double width = 4;
-		double thickness = 1;
 
-		drawLeft(i, 0, 0, width, thickness, tankHead, b);
-		extrudeComponent(i, tankDiameter * 10 + 80);
-		i++;
-
-		drawRight(i, 0, 0, width, thickness, tankHead, b);
-		extrudeComponent(i, tankDiameter * 10 + 80);
-		i++;
-
-		drawUp(i, 0, 0, width, thickness, tankHead, b);
-		extrudeComponent(i, tankDiameter * 10 + 80);
-		i++;
-
-		drawDown(i, 0, 0, width, thickness, tankHead, b);
-		extrudeComponent(i, tankDiameter * 10 + 80);
-		i++;
+		for (int count = 0; count < 4; count++)
+		{
+			drawHorizontal(count, i, 0, 0, deviation, width, thickness, b);
+			extrudeComponent(i, tankDiameter * 10 + 80);
+			i++;
+		}
 	}
 
 	//+-----------------------------------------------+
 	// Draw Diagonal support beams                    |
-	//+-----------------------------------------------+
-
-	calculateDiagonalExtrusionLength(tankHead,tankDiameter,HorizontalSupport);
-	calculateDiagonalSlant(4, tankDiameter, diagonalExtrusionLength);
-	for (int e = 1; e < (DiagonalSupport+1); e++)
-	{
-		double width = 4;
-		double thickness = 1;
-
-		drawLeftDiagonal(i, 0, 0, width, thickness, tankHead, e,diagonalSlant);
-		extrudeComponent(i, diagonalExtrusionLength);
-		i++;
+	//+-----------------------------------------------+	
+	float height = (tankHead / supportCount);
+	SlantAngle = atan(height/(tankDiameter * 10.0))*(180/3.1415927);
 	
-		drawRightDiagonal(i, 0, 0, width, thickness, tankHead, e, diagonalSlant);
-		extrudeComponent(i, diagonalExtrusionLength);
-		i++;
+	double extrusionLength = (tankDiameter*10) / sin(SlantAngle);
+	double diagonalSlant = sin(SlantAngle) * width;
 
-		drawUpDiagonal(i, 0, 0, width, thickness, tankHead, e, diagonalSlant);
-		extrudeComponent(i, diagonalExtrusionLength);
-		i++;
-		
-		drawDownDiagonal(i, 0, 0, width, thickness, tankHead, e, diagonalSlant);
-		extrudeComponent(i, diagonalExtrusionLength);
-		i++;
-		
+	for (int e = 1; e < (supportCount + 1); e++)
+	{
+		for (int count = 0; count < 4; count++)
+		{
+			drawDiagonal(count, i, 0, 0, deviation, width, thickness, e, diagonalSlant);
+			extrudeComponent(i, extrusionLength);
+			i++;
+		}
 	}
 
 	//assembleComponents();
 	return true;
-
 }
 #endif // !BEAM_H

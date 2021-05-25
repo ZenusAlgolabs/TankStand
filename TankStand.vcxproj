@@ -103,12 +103,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CSV.h" />
-    <ClInclude Include="Diagonal.h" />
+    <ClInclude Include="VerticalSupport.h" />
     <ClInclude Include="drawStand.h" />
     <ClInclude Include="Calculations.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="EventHandler.h" />
-    <ClInclude Include="Horizontal.h" />
     <ClInclude Include="Beam.h" />
   </ItemGroup>
   <ItemGroup>

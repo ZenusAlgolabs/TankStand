@@ -10,10 +10,7 @@
     <ClInclude Include="Beam.h">
       <Filter>Beam</Filter>
     </ClInclude>
-    <ClInclude Include="Horizontal.h">
-      <Filter>Beam</Filter>
-    </ClInclude>
-    <ClInclude Include="Diagonal.h">
+    <ClInclude Include="VerticalSupport.h">
       <Filter>Beam</Filter>
     </ClInclude>
     <ClInclude Include="CSV.h" />

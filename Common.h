@@ -44,18 +44,23 @@ Ptr<BRepFaces> endFaces;
 Ptr<BRepFace> endFace;
 Ptr<ConstructionPlane> constructionPlane;
 
-double tankDiameter = 100;
 double beamSize = 4;
+float SlantAngle = 0.0;
 int PrincipleBeams = 4;
-int SupportUBeams = 4;
-int BaseUBeams = 8;
-int HorizontalSupport = 4;
+int uBeamsCount = 3;
+int supportCount = 3;
+double tankDiameter = 0.0;
+double width = 4;
+double thickness = 1;
 
-int DiagonalSupport = 4;
-double diagonalExtrusionLength = 0;
-double diagonalSlant_a = 0;
-double diagonalSlant_b = 0;
-double diagonalSlant = 0;
+double x_1, y_1, z_1,
+x_2, y_2, z_2,
+x_3, y_3, z_3,
+x_4, y_4, z_4,
+x_5, y_5, z_5,
+x_6, y_6, z_6,
+x_7, y_7, z_7,
+x_8, y_8, z_8;
 
 bool checkReturn(Ptr<Base> returnObj)
 {
@@ -147,6 +152,104 @@ bool getSubOccurrence(int ID)
 		return false;
 }
 
+bool Sketch_LBeam(int ID, int refID, int offSet)
+{
+	getConstructionPlane(ID, refID, offSet);
+	getSubOccurrence(ID);
+
+	// Draw two connected lines.
+	Ptr<SketchCurves> sketchCurves = (sketch[ID]->sketchCurves());
+	if (!sketchCurves)
+		return false;
+	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
+	if (!sketchLines)
+		return false;
+
+	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
+		Point3D::create(x_1, y_1, z_1),
+		Point3D::create(x_2, y_2, z_2));
+	if (!line1)
+		return false;
+	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(),
+		Point3D::create(x_3, y_3, z_3));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(),
+		Point3D::create(x_4, y_4, z_4));
+	if (!line3)
+		return false;
+	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(),
+		Point3D::create(x_5, y_5, z_5));
+	if (!line4)
+		return false;
+	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(),
+		Point3D::create(x_6, y_6, z_6));
+	if (!line5)
+		return false;
+	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(),
+		line1->startSketchPoint());
+	if (!line6)
+		return false;
+	return true;
+}
+
+bool Sketch_UBeam(int ID, int refID, int offSet)
+{
+	getConstructionPlane(ID, refID, offSet);
+	getSubOccurrence(ID);
+
+	// Draw two connected lines. 
+	Ptr<SketchCurves> sketchCurves = (sketch[ID]->sketchCurves());
+	if (!sketchCurves)
+		return false;
+	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
+	if (!sketchLines)
+		return false;
+
+	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
+		Point3D::create(x_1, y_1, z_1),
+		Point3D::create(x_2, y_2, z_2));
+	if (!line1)
+		return false;
+
+	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(
+		line1->endSketchPoint(),
+		Point3D::create(x_3, y_3, z_3));
+	if (!line2)
+		return false;
+	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(
+		line2->endSketchPoint(),
+		Point3D::create(x_4, y_4, z_4));
+	if (!line3)
+		return false;
+	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(
+		line3->endSketchPoint(),
+		Point3D::create(x_5, y_5, z_5));
+	if (!line4)
+		return false;
+	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(
+		line4->endSketchPoint(),
+		Point3D::create(x_6, y_6, z_6));
+	if (!line5)
+		return false;
+	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(
+		line5->endSketchPoint(),
+		Point3D::create(x_7, y_7, z_7));
+	if (!line6)
+		return false;
+	Ptr<SketchLine> line7 = sketchLines->addByTwoPoints(
+		line6->endSketchPoint(),
+		Point3D::create(x_8, y_8, z_8));
+	if (!line7)
+		return false;
+	Ptr<SketchLine> line8 = sketchLines->addByTwoPoints(
+		line7->endSketchPoint(),
+		line1->startSketchPoint());
+	if (!line8)
+		return false;
+
+}
+
 bool extrudeComponent(int ID, double _extrusionLength)
 {
 	// Get the profile defined by the circle
@@ -205,30 +308,6 @@ bool extrudeComponent(int ID, double _extrusionLength)
 		return false;
 	}
 
-}
-
-bool assembleComponents(int componentID_1,int componentID_2)
-{
-	// Create the AsBuiltJoint
-	Ptr<AsBuiltJoints> asBuiltJoints_ = rootComp->asBuiltJoints();
-	if (!asBuiltJoints_)
-		return false;
-	Ptr<AsBuiltJointInput> asBuiltJointInput = asBuiltJoints_->createInput(subOccurrence[componentID_1], subOccurrence[componentID_2], nullptr);
-	if (!asBuiltJointInput)
-		return false;
-	Ptr<AsBuiltJoint> asBuiltJoint = asBuiltJoints_->add(asBuiltJointInput);
-	if (!asBuiltJoint)
-		return false;
-
-	// Fit to window
-	Ptr<Viewport> viewPort = app->activeViewport();
-	if (!viewPort)
-		return false;
-	Ptr<Camera> cam = viewPort->camera();
-	if (!cam)
-		return false;
-	cam->isFitView(true);
-	viewPort->camera(cam);
 }
 
 #endif // !COMMON_H
