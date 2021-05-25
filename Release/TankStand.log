@@ -1,58 +1,28 @@
 ﻿  TankStand.cpp
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(23,14): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(26,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(28,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(44,14): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(48,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(50,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(66,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(70,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(72,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(160,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(161,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(162,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(163,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(164,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(165,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(166,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(167,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(22,14): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(25,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(27,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(43,14): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(47,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(49,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(65,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(69,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(71,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(198,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(199,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(200,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(201,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(202,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(203,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(204,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(205,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\drawStand.h(105,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\drawStand.h(106,49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
      Creating library C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.lib and object C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.exp
   Generating code
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Common.h(196): warning C4715: 'extrudeComponent': not all control paths return a value
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(240): warning C4715: 'drawDown': not all control paths return a value
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(215): warning C4700: uninitialized local variable 'x_2' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(215): warning C4700: uninitialized local variable 'x_1' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(220): warning C4700: uninitialized local variable 'x_3' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(181): warning C4715: 'drawUp': not all control paths return a value
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(224): warning C4700: uninitialized local variable 'x_4' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(228): warning C4700: uninitialized local variable 'x_5' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(232): warning C4700: uninitialized local variable 'x_6' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(156): warning C4700: uninitialized local variable 'x_2' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(156): warning C4700: uninitialized local variable 'x_1' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(161): warning C4700: uninitialized local variable 'x_3' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(165): warning C4700: uninitialized local variable 'x_4' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(169): warning C4700: uninitialized local variable 'x_5' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(173): warning C4700: uninitialized local variable 'x_6' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(122): warning C4715: 'drawRight': not all control paths return a value
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(97): warning C4700: uninitialized local variable 'z_2' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(97): warning C4700: uninitialized local variable 'z_1' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(102): warning C4700: uninitialized local variable 'z_3' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(106): warning C4700: uninitialized local variable 'z_4' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(110): warning C4700: uninitialized local variable 'z_5' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(114): warning C4700: uninitialized local variable 'z_6' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(64): warning C4715: 'drawLeft': not all control paths return a value
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(39): warning C4700: uninitialized local variable 'z_2' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(39): warning C4700: uninitialized local variable 'z_1' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(44): warning C4700: uninitialized local variable 'z_3' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(48): warning C4700: uninitialized local variable 'z_4' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(52): warning C4700: uninitialized local variable 'z_5' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Horizontal.h(56): warning C4700: uninitialized local variable 'z_6' used
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\baseUBeam.h(73): warning C4715: 'drawBaseUBeam': not all control paths return a value
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\RBeam.h(190): warning C4715: 'drawRBeam': not all control paths return a value
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\supportUBeam.h(74): warning C4715: 'drawSupportUBeam': not all control paths return a value
-  12 of 1144 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
+  1 of 1087 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   TankStand.vcxproj -> C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.dll
   C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.dll
