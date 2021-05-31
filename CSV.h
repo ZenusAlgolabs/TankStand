@@ -148,17 +148,10 @@ protected:
 
 int Write(double Capacity, string Material, string WaterQuality, double TankHead, int BeamID, std::string Type, int Quantity, double Length, double  Width, double  Thickness, std::string Comment, bool CostAnalysis) {
 	CSVWriter csv;
-	CSVWriter csv_1;
-	CSVWriter csv_2;
-	CSVWriter csv_3;
-	CSVWriter csv_4;
-	CSVWriter csv_5;
-
-	//Automatically check for all database files
 	int Results;
 	struct stat buffer;
-
 	std::string FileName = "D:/Data.csv";
+	//Automatically check for all database files
 	Results = stat(FileName.c_str(), &buffer);
 
 	if (Results == DATABASE_EXISTS) { //Prepare the data to be written to file...
@@ -189,7 +182,5 @@ int Write(double Capacity, string Material, string WaterQuality, double TankHead
 			<< "\nBeamID" << "Type" << "Quantity" << "Length" << "Width" << "Thickness" << "Comment";
 		csv.writeToFile(FileName.c_str());
 	}
-
-
 	return 0;
 }

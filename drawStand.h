@@ -8,28 +8,9 @@
 #include "VerticalSupport.h"
 #include "CSV.h"
 
-bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
+bool drawTankStand(Ptr<Design> design, string material, double tankHead, double tankCapacity, string fluidType,
+	double fluidDensity, double costPerMeter_Sq, double costPerMeter_L, double costPerMeter_U)
 {
-	int csv_count = 1;
-	Write(1345.6, "Steel", "Salty", 20.0, 0, " ", 0, 0, 0, 0, " ", false);
-
-	for (size_t i = 0; i < PrincipleBeams; i++)
-	{
-		Write(0.0, " ", " ", 0.0, csv_count, "RectangularTube", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
-		csv_count++;
-	}
-	for (size_t i = 0; i < supportCount; i++)
-	{
-		Write(0.0, " ", " ", 0.0, csv_count, "UType", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
-		csv_count++;
-	}
-	for (size_t i = 0; i < supportCount; i++)
-	{
-		Write(0.0, " ", " ", 0.0, csv_count, "LType", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
-		csv_count++;
-	}
-	Write(0.0, " ", " ", 0.0, 0, " ", 0, 0, 0, 0, " ", true);
-
 	design->designType(ParametricDesignType);
 
 	// Get the root component of the active design
@@ -68,7 +49,6 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 		extrudeComponent(i, tankHead);
 		i++;
 	}
-	
 	//+-----------------------------------------------+
 	//Draw Tank platform beams                        |
 	//+-----------------------------------------------+
@@ -82,7 +62,6 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 			i++;
 		}
 	}
-	
 	//+-----------------------------------------------+
 	//     Draw structure support beams               |
 	// 	   Horizontal Support structures              |
@@ -98,7 +77,6 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 			i++;
 		}
 	}
-
 	//+-----------------------------------------------+
 	// Draw Diagonal support beams                    |
 	//+-----------------------------------------------+	
@@ -107,18 +85,40 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 	double a = pow(height, 2);
 	double b = pow((tankDiameter * 10), 2);
 	double extrusionLength = pow((a + b), 0.5) + 40;
-	SlantAngle = 90 - (atan(height/(tankDiameter * 10)) * (180 / 3.1415)); //in degrees
-	ui->messageBox("Angle :"+to_string(SlantAngle) + "\nDiameter :" + to_string(tankDiameter * 10)
+	SlantAngle = 90 - (atan(height / (tankDiameter * 10)) * (180 / 3.1415)); //in degrees
+	ui->messageBox("Angle :" + to_string(SlantAngle) + "\nDiameter :" + to_string(tankDiameter * 10)
 		+ "\nHeight :" + to_string(height) + "\nExtrusion :" + to_string(extrusionLength));
 
 	for (int e = 1; e < (supportCount + 1); e++)
 	{
 		for (int count = 0; count < 8; count++)
 		{
-				drawDiagonal(count, i, 0, deviation, width, thickness, extrusionLength, e);
-				i++;
+			drawDiagonal(count, i, 0, deviation, width, thickness, extrusionLength, e);
+			i++;
 		}
 	}
+	//+-----------------------------------------------+
+	// Document the CSV file                          |
+	//+-----------------------------------------------+	
+	int csv_count = 1;
+	Write(1345.6, "Steel", "Salty", 20.0, 0, " ", 0, 0, 0, 0, " ", false);
+
+	for (size_t i = 0; i < PrincipleBeams; i++)
+	{
+		Write(0.0, " ", " ", 0.0, csv_count, "RectangularTube", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
+		csv_count++;
+	}
+	for (size_t i = 0; i < supportCount; i++)
+	{
+		Write(0.0, " ", " ", 0.0, csv_count, "UType", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
+		csv_count++;
+	}
+	for (size_t i = 0; i < supportCount; i++)
+	{
+		Write(0.0, " ", " ", 0.0, csv_count, "LType", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
+		csv_count++;
+	}
+	Write(0.0, " ", " ", 0.0, 0, " ", 0, 0, 0, 0, " ", true);
 
 	return true;
 }

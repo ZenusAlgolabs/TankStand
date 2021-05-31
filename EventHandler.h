@@ -5,9 +5,6 @@
 #include "Common.h"
 #include "drawStand.h"
 
-std::string material;
-std::string quality;
-
 bool getCommandInputValue(Ptr<CommandInput> commandInput, std::string unitType, double* value)
 {
     Ptr<ValueCommandInput> valCommandInput = commandInput;
@@ -17,7 +14,6 @@ bool getCommandInputValue(Ptr<CommandInput> commandInput, std::string unitType, 
         displayErrorMessage("");
         return false;
     }
-
     // Verify that the expression is valid.
     Ptr<Design> des = app->activeProduct();
     Ptr<UnitsManager> unitsMgr = des->unitsManager();
@@ -62,13 +58,24 @@ public:
         attribs->add("TankStand", "material", _structureMaterial->selectedItem()->name());
         attribs->add("TankStand", "tankHead", std::to_string(_tankHead->value()));
         attribs->add("TankStand", "tankCapacity", std::to_string(_tankCapacity->value()));
+        attribs->add("TankStand", "fluidType", _fluidType->selectedItem()->name());
+        attribs->add("TankStand", "fluidDensity", std::to_string(_fluidDensity->value()));
+        attribs->add("TankStand", "costPerMeter_Sq", std::to_string(_costPerMeter_Sq->value()));
+        attribs->add("TankStand", "costPerMeter_L", std::to_string(_costPerMeter_L->value()));
+        attribs->add("TankStand", "costPerMeter_U", std::to_string(_costPerMeter_U->value()));
 
         // Get the current values.
+        string material = _structureMaterial->selectedItem()->name();
         double tankHead = _tankHead->value();
         double tankCapacity = _tankCapacity->value();
+        string fluidType = _fluidType->selectedItem()->name();
+        double fluidDensity = _fluidDensity->value();
+        double costPerMeter_Sq = _costPerMeter_Sq->value();
+        double costPerMeter_L = _costPerMeter_L->value();
+        double costPerMeter_U = _costPerMeter_U->value();
 
         // Create the gear.
-       drawTankStand(design, tankHead, tankCapacity);
+        drawTankStand(design, material, tankHead, tankCapacity, fluidType, fluidDensity, costPerMeter_Sq, costPerMeter_L, costPerMeter_U);
     }
 } _standCommandExecute;
 
@@ -91,23 +98,10 @@ public:
                 _imgInput->isVisible(true);
                 units = "m";
             }
-
-            // Set each one to it's current value because otherwised if the user 
-            // has edited it, the value won't update in the dialog because 
-            // apparently it remembers the units when the value was edited.
-            // Setting the value using the API resets this.
             _tankCapacity->value(_tankCapacity->value());
             _tankCapacity->unitType(units);
             _tankHead->value(_tankHead->value());
             _tankHead->unitType(units);
-        }
-
-        // Update the pitch diameter value.
-        if (_structureMaterial->selectedItem()->name() == "Aluminium")
-        {
-        }
-        else if (_structureMaterial->selectedItem()->name() == "Steel")
-        {
         }
     }
 } _standCommandInputChanged;
@@ -144,43 +138,23 @@ public:
             ui->messageBox("A Fusion design must be active when invoking this command.");
             return;
         }
-
-        std::string defaultUnits = design->unitsManager()->defaultLengthUnits();
-
-        // Determine whether to use inches or millimeters as the intial default.
-        if (defaultUnits == "in" || defaultUnits == "ft")
-        {
-            units = "in";
-        }
-        else
-        {
-            units = "m";
-        }
-
         // Define the default values and get the previous values from the attributes.
-        std::string material;
-        if (units == "in")
-        {
-            material = "Aluminium";
-        }
-        else
-        {
-            material = "Steel";
-        }
-
-        std::string fluid;
+        std::string material = "Steel";
 
         Ptr<Attribute> structureMaterialAttribute = design->attributes()->itemByName("TankStand", "material");
         if (checkReturn(structureMaterialAttribute))
             material = structureMaterialAttribute->value();
         if (material == "Aluminium")
         {
-            units = "in";
         }
         else
         {
-            units = "m";
         }
+
+        std::string fluidType = "Water";
+        Ptr<Attribute> fluidTypeAttribute = design->attributes()->itemByName("TankStand", "fluidType");
+        if (checkReturn(fluidTypeAttribute))
+            fluidType = fluidTypeAttribute->value();
 
         std::string fluidDensity = "0";
         Ptr<Attribute> fluidDensityAttribute = design->attributes()->itemByName("TankStand", "fluidDensity");
@@ -244,7 +218,7 @@ public:
         if (!checkReturn(_fluidType))
             return;
 
-        if (fluid == "Water")
+        if (fluidType == "Water")
         {
             _fluidType->listItems()->add("Water", true);
             _fluidType->listItems()->add("Oil", false);
