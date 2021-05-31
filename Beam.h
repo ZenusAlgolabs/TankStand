@@ -121,13 +121,13 @@ bool drawUBeam(int count, int ID, int location, int refID, int offSet, double th
 	z_8 = z_7; y_8 = y_1;
 	}
 
-	Sketch_UBeam(ID, refID, offSet);
+	Sketch_UBeam(ID, refID);
 	return true;
 }
 
 bool drawRBeam(int ID, int refID, int offSet, double thickness)
 {
-	getConstructionPlane(ID, refID, offSet);
+	getConstructionPlane(ID, refID);
 	getSubOccurrence(ID);
 
 	int x_1 = 0, z_1 = 0, x_2 = 0, z_2 = 0, x_3 = 0, z_3 = 0, x_4 = 0, z_4 = 0;

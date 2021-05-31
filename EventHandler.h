@@ -168,6 +168,8 @@ public:
             material = "Steel";
         }
 
+        std::string fluid;
+
         Ptr<Attribute> structureMaterialAttribute = design->attributes()->itemByName("TankStand", "material");
         if (checkReturn(structureMaterialAttribute))
             material = structureMaterialAttribute->value();
@@ -180,6 +182,11 @@ public:
             units = "m";
         }
 
+        std::string fluidDensity = "0";
+        Ptr<Attribute> fluidDensityAttribute = design->attributes()->itemByName("TankStand", "fluidDensity");
+        if (checkReturn(fluidDensityAttribute))
+            fluidDensity = fluidDensityAttribute->value();
+
         std::string tankCapacity = "0";
         Ptr<Attribute> tankCapacityAttribute = design->attributes()->itemByName("TankStand", "tankCapacity");
         if (checkReturn(tankCapacityAttribute))
@@ -189,6 +196,21 @@ public:
         Ptr<Attribute> tankHeadAttribute = design->attributes()->itemByName("TankStand", "tankHead");
         if (checkReturn(tankHeadAttribute))
             tankHead = tankHeadAttribute->value();
+
+        std::string costPerMeter_Sq = "0";
+        Ptr<Attribute> costPerMeter_SqAttribute = design->attributes()->itemByName("TankStand", "costPerMeter_Sq");
+        if (checkReturn(costPerMeter_SqAttribute))
+            costPerMeter_Sq = costPerMeter_SqAttribute->value();
+
+        std::string costPerMeter_L = "0";
+        Ptr<Attribute> costPerMeter_LAttribute = design->attributes()->itemByName("TankStand", "costPerMeter_L");
+        if (checkReturn(costPerMeter_LAttribute))
+            costPerMeter_L = costPerMeter_LAttribute->value();
+
+        std::string costPerMeter_U = "0";
+        Ptr<Attribute> costPerMeter_UAttribute = design->attributes()->itemByName("TankStand", "costPerMeter_U");
+        if (checkReturn(costPerMeter_UAttribute))
+            costPerMeter_U = costPerMeter_UAttribute->value();
 
         Ptr<Command> cmd = eventArgs->command();
         cmd->isExecutedWhenPreEmpted(false);
@@ -218,12 +240,43 @@ public:
             _structureMaterial->listItems()->add("Steel", true);
         }
 
+        _fluidType = inputs->addDropDownCommandInput("fluid", "Fluid", TextListDropDownStyle);
+        if (!checkReturn(_fluidType))
+            return;
+
+        if (fluid == "Water")
+        {
+            _fluidType->listItems()->add("Water", true);
+            _fluidType->listItems()->add("Oil", false);
+        }
+        else
+        {
+            _fluidType->listItems()->add("Water", false);
+            _fluidType->listItems()->add("Oil", true);
+        }
+
+        _fluidDensity = inputs->addValueInput("fluidDensity", "Fluid Density", units, ValueInput::createByReal(std::stod(fluidDensity)));
+        if (!checkReturn(_fluidDensity))
+            return;
+
         _tankCapacity = inputs->addValueInput("tankCapacity", "Tank Capacity", units, ValueInput::createByReal(std::stod(tankCapacity)));
         if (!checkReturn(_tankCapacity))
             return;
 
         _tankHead = inputs->addValueInput("tankHead", "Tank Head", units, ValueInput::createByReal(std::stod(tankHead)));
         if (!checkReturn(_tankHead))
+            return;
+
+        _costPerMeter_Sq = inputs->addValueInput("costPerMeter", "SqBeam Cost/Meter", units, ValueInput::createByReal(std::stod(costPerMeter_Sq)));
+        if (!checkReturn(_costPerMeter_Sq))
+            return;
+
+        _costPerMeter_L = inputs->addValueInput("costPerMeter", "LBeam Cost/Meter", units, ValueInput::createByReal(std::stod(costPerMeter_L)));
+        if (!checkReturn(_costPerMeter_L))
+            return;
+
+        _costPerMeter_U = inputs->addValueInput("costPerMeter", "UBeam Cost/Meter", units, ValueInput::createByReal(std::stod(costPerMeter_U)));
+        if (!checkReturn(_costPerMeter_U))
             return;
 
         _errMessage = inputs->addTextBoxCommandInput("errMessage", "", "", 2, true);

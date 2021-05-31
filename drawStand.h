@@ -10,7 +10,7 @@
 
 bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 {
-	/*int csv_count = 1;
+	int csv_count = 1;
 	Write(1345.6, "Steel", "Salty", 20.0, 0, " ", 0, 0, 0, 0, " ", false);
 
 	for (size_t i = 0; i < PrincipleBeams; i++)
@@ -29,7 +29,7 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 		csv_count++;
 	}
 	Write(0.0, " ", " ", 0.0, 0, " ", 0, 0, 0, 0, " ", true);
-	*/
+
 	design->designType(ParametricDesignType);
 
 	// Get the root component of the active design
@@ -83,7 +83,7 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 		}
 	}
 	
-    //+-----------------------------------------------+
+	//+-----------------------------------------------+
 	//     Draw structure support beams               |
 	// 	   Horizontal Support structures              |
 	//+-----------------------------------------------+
@@ -93,7 +93,7 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 
 		for (int count = 0; count < 4; count++)
 		{
-			drawHorizontal(count, i, 0, 0, deviation, width, thickness, b);
+			drawHorizontal(count, i, 0, deviation, width, thickness, b);
 			extrudeComponent(i, tankDiameter * 10 + 80);
 			i++;
 		}
@@ -103,22 +103,23 @@ bool drawTankStand(Ptr<Design> design, double tankHead, double tankCapacity)
 	// Draw Diagonal support beams                    |
 	//+-----------------------------------------------+	
 	float height = (tankHead / supportCount);
-	SlantAngle = atan(height/(tankDiameter * 10.0))*(180/3.1415927);
-	
-	double extrusionLength = (tankDiameter*10) / sin(SlantAngle);
-	double diagonalSlant = sin(SlantAngle) * width;
+
+	double a = pow(height, 2);
+	double b = pow((tankDiameter * 10), 2);
+	double extrusionLength = pow((a + b), 0.5) + 40;
+	SlantAngle = 90 - (atan(height/(tankDiameter * 10)) * (180 / 3.1415)); //in degrees
+	ui->messageBox("Angle :"+to_string(SlantAngle) + "\nDiameter :" + to_string(tankDiameter * 10)
+		+ "\nHeight :" + to_string(height) + "\nExtrusion :" + to_string(extrusionLength));
 
 	for (int e = 1; e < (supportCount + 1); e++)
 	{
-		for (int count = 0; count < 4; count++)
+		for (int count = 0; count < 8; count++)
 		{
-			drawDiagonal(count, i, 0, 0, deviation, width, thickness, e, diagonalSlant);
-			extrudeComponent(i, extrusionLength);
-			i++;
+				drawDiagonal(count, i, 0, deviation, width, thickness, extrusionLength, e);
+				i++;
 		}
 	}
 
-	//assembleComponents();
 	return true;
 }
 #endif // !BEAM_H

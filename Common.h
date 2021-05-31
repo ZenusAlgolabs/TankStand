@@ -23,8 +23,13 @@ std::string units = "m";
 // Global command input declarations.
 Ptr<DropDownCommandInput> _waterQuality;
 Ptr<DropDownCommandInput> _structureMaterial;
+Ptr<DropDownCommandInput> _fluidType;
 Ptr<ValueCommandInput> _tankCapacity;
 Ptr<ValueCommandInput> _tankHead;
+Ptr<ValueCommandInput> _fluidDensity;
+Ptr<ValueCommandInput> _costPerMeter_Sq;
+Ptr<ValueCommandInput> _costPerMeter_L;
+Ptr<ValueCommandInput> _costPerMeter_U;
 
 Ptr<TextBoxCommandInput> _errMessage;
 Ptr<ImageCommandInput> _imgInput;
@@ -48,7 +53,7 @@ double beamSize = 4;
 float SlantAngle = 0.0;
 int PrincipleBeams = 4;
 int uBeamsCount = 3;
-int supportCount = 3;
+int supportCount = 4;
 double tankDiameter = 0.0;
 double width = 4;
 double thickness = 1;
@@ -103,7 +108,7 @@ bool getEndFace(int refID)
 		return false;
 }
 
-bool getConstructionPlane(int ID,int refID,int offSet)
+bool getConstructionPlane(int ID,int refID)
 {
 	if (ID == 0)
 	{
@@ -152,9 +157,9 @@ bool getSubOccurrence(int ID)
 		return false;
 }
 
-bool Sketch_LBeam(int ID, int refID, int offSet)
+bool Sketch_LBeam(int ID, int refID)
 {
-	getConstructionPlane(ID, refID, offSet);
+	getConstructionPlane(ID, refID);
 	getSubOccurrence(ID);
 
 	// Draw two connected lines.
@@ -193,9 +198,9 @@ bool Sketch_LBeam(int ID, int refID, int offSet)
 	return true;
 }
 
-bool Sketch_UBeam(int ID, int refID, int offSet)
+bool Sketch_UBeam(int ID, int refID)
 {
-	getConstructionPlane(ID, refID, offSet);
+	getConstructionPlane(ID, refID);
 	getSubOccurrence(ID);
 
 	// Draw two connected lines. 
