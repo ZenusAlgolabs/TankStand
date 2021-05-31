@@ -38,6 +38,7 @@ bool drawTankStand(Ptr<Design> design, string material, double tankHead, double 
 
 	int i = 0;
 	double deviation = 0.0;
+	tankHead = tankHead * 10;
 	tankDiameter = pow((tankCapacity / (3.145167 * 2)), 0.5);
 	calculatePriciplePositions();
 	//+-----------------------------------------------+
@@ -85,9 +86,9 @@ bool drawTankStand(Ptr<Design> design, string material, double tankHead, double 
 	double a = pow(height, 2);
 	double b = pow((tankDiameter * 10), 2);
 	double extrusionLength = pow((a + b), 0.5) + 40;
-	SlantAngle = 90 - (atan(height / (tankDiameter * 10)) * (180 / 3.1415)); //in degrees
-	ui->messageBox("Angle :" + to_string(SlantAngle) + "\nDiameter :" + to_string(tankDiameter * 10)
-		+ "\nHeight :" + to_string(height) + "\nExtrusion :" + to_string(extrusionLength));
+	SlantAngle = atan(height / (tankDiameter * 10)); //in degrees
+	//ui->messageBox("Angle :" + to_string(SlantAngle) + "\nDiameter :" + to_string(tankDiameter * 10)
+	//	+ "\nHeight :" + to_string(height) + "\nExtrusion :" + to_string(extrusionLength));
 
 	for (int e = 1; e < (supportCount + 1); e++)
 	{

@@ -8,21 +8,24 @@ C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\
 C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(65,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(69,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(71,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(198,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(199,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(200,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(201,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(202,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(203,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(204,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(205,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\drawStand.h(105,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\drawStand.h(106,49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(172,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(172,35): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(173,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(173,35): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(174,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(174,35): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(175,12): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Beam.h(175,35): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\drawStand.h(84,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\drawStand.h(89,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\drawStand.h(109,132): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\drawStand.h(114,122): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\drawStand.h(119,122): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
      Creating library C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.lib and object C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.exp
   Generating code
-  1 of 1087 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  2 of 1148 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   TankStand.vcxproj -> C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.dll
   C:\Users\Gachanja\Google Drive (gachanja28@students.uonbi.ac.ke)\Mechanical Eng\5th Year\Project\TankStand\Release\TankStand.dll

@@ -7,7 +7,7 @@
 // X Y axis
 bool drawDiagonal(int count, int ID, int refID, double deviation, double width, double thickness, double extrusionLength, int location)
 {
-	double slantAngle = SlantAngle * 3.14159 / 180;
+	double slantAngle = SlantAngle;
 
 	x_1 = 0.0; y_1 = 0.0; z_1 = 0.0;
 	x_2 = 0.0; y_2 = 0.0; z_2 = 0.0;
@@ -20,9 +20,9 @@ bool drawDiagonal(int count, int ID, int refID, double deviation, double width, 
 	{
 		//Left
 		x_1 = 0;               y_1 = deviation * location;  z_1 = 0;
-		x_2 = x_1;             y_2 = y_1 + width * cos(slantAngle);           z_2 = z_1 + width;
+		x_2 = x_1;             y_2 = y_1 + thickness * cos(slantAngle);           z_2 = z_1 + thickness;
 		x_3 = x_2 + thickness; y_3 = y_2;                   z_3 = z_2;
-		x_4 = x_3;             y_4 = y_1 + thickness * cos(slantAngle);       z_4 = z_1 + thickness;
+		x_4 = x_3;             y_4 = y_1 + width * cos(slantAngle);       z_4 = z_1 + width;
 		x_5 = x_1 + width;     y_5 = y_4;                   z_5 = z_4;
 		x_6 = x_5;             y_6 = y_1;                   z_6 = z_1;
 	}
@@ -30,9 +30,9 @@ bool drawDiagonal(int count, int ID, int refID, double deviation, double width, 
 	{
 		//Left
 		x_1 = 0;                        y_1 = deviation * location;  z_1 = tankDiameter + 2 * beamSize;
-		x_2 = x_1;                      y_2 = y_1 + width * cos(slantAngle);           z_2 = z_1 - width;
+		x_2 = x_1;                      y_2 = y_1 + thickness * cos(slantAngle);           z_2 = z_1 - thickness;
 		x_3 = x_2 + thickness;          y_3 = y_2;                   z_3 = z_2;
-		x_4 = x_3;                      y_4 = y_1 + thickness * cos(slantAngle);       z_4 = z_1 - thickness;
+		x_4 = x_3;                      y_4 = y_1 + width * cos(slantAngle);       z_4 = z_1 - width;
 		x_5 = x_1 + width;              y_5 = y_4;                   z_5 = z_4;
 		x_6 = x_5;                      y_6 = y_1;                   z_6 = z_1;
 		extrusionLength = extrusionLength * -1;
