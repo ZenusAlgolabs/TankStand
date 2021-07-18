@@ -146,7 +146,15 @@ protected:
 
 };
 
-int Write(double Capacity, string Material, string WaterQuality, double TankHead, int BeamID, std::string Type, int Quantity, double Length, double  Width, double  Thickness, std::string Comment, bool CostAnalysis) {
+int Write(double Capacity, double TankHead, std::string Type,
+	int Quantity, 
+	double Breadth, double  Width, double  Thickness,
+	std::string Comment,
+	double PrincipleLength, double PrincipleCostPMet, double PrincipleCost,
+	double HorizontalLength, double HorizontalCostPMet, double HorizontalCost,
+	double DiagonalLength, double DiagonalCostPMet, double DiagonalCost,
+	bool CostAnalysis)
+{
 	CSVWriter csv;
 	int Results;
 	struct stat buffer;
@@ -154,32 +162,40 @@ int Write(double Capacity, string Material, string WaterQuality, double TankHead
 	//Automatically check for all database files
 	Results = stat(FileName.c_str(), &buffer);
 
-	if (Results == DATABASE_EXISTS) { //Prepare the data to be written to file...
+	if (Results == DATABASE_EXISTS) { 
+		//Prepare the data to be written to file...
 		if (CostAnalysis == true)
 		{
 			csv << "\n\nCost Analysis"
-				<< "\nBeam" << "Total Length" << "Cost/Meter" << "Total Cost"
-				<< "\nRBeam" << 100 << 25.6 << 2560
-				<< "\nLBeam" << 200 << 25.6 << 2560
-				<< "\nUBeam" << 1000 << 25.6 << 2560
-				<< "\nTotal Cost" << "" << "" << (2560 * 3);
+				<< "\nComponent" << "Total Length (m)" 
+				<< "Cost/Meter (KSh/m)" << "Total Cost (KSh)"
+				<< "\nPrinciple Columns" << (PrincipleLength / 1000)
+				 << PrincipleCostPMet << PrincipleCost
+				<< "\nHorizontal braces" << (HorizontalLength / 1000) 
+				<< HorizontalCostPMet << HorizontalCost
+				<< "\nDiagonal struts" << (DiagonalLength / 1000)
+				 << DiagonalCostPMet << DiagonalCost
+				<< "\nTotal Cost" << "" << "" 
+				<< ((PrincipleCost+ HorizontalCost+ DiagonalCost) / 1000);
 		}
 		else
 		{
-			csv << BeamID << Type << Quantity << Length << Width << Thickness << Comment;
+			csv << Type << Quantity << Breadth << Width 
+			<< Thickness << Comment;
 		}
 
-		//Since the data is being added to a database, append data to existing file if file is found
+		//Since the data is being added to a database, 
+		//append data to existing file if file is found
 		csv.writeToFile(FileName.c_str(), true);
 	}
 	else {
 		csv << "Inputs"
-			<< "\nCapacity" << "" << Capacity
-			<< "\nMaterial" << "" << Material
-			<< "\nWater Quality" << "" << WaterQuality
-			<< "\nTankHead" << "" << TankHead
-			<< "\n\nBeam Dimensions"
-			<< "\nBeamID" << "Type" << "Quantity" << "Length" << "Width" << "Thickness" << "Comment";
+			<< "\nCapacity (Liters)" << "" << Capacity
+			<< "\nMaterial" << " Structural Steel"
+			<< "\nTankHead (Meters)" << "" << TankHead
+			<< "\n\nDimensions"
+			<< "\nComponent" << "Quantity" << "Breadth (mm)" 
+			<< "Width (mm)" << "Thickness (mm)" << "Comment";
 		csv.writeToFile(FileName.c_str());
 	}
 	return 0;

@@ -8,10 +8,14 @@
 #include "VerticalSupport.h"
 #include "CSV.h"
 
-bool drawTankStand(Ptr<Design> design, string material, double tankHead, double tankCapacity, string fluidType,
-	double fluidDensity, double costPerMeter_Sq, double costPerMeter_L, double costPerMeter_U)
+bool drawTankStand(Ptr<Design> design, double tankHead, 
+double tankCapacity, double costPerMeter_Sq, double costPerMeter_L)
 {
 	design->designType(ParametricDesignType);
+
+	PrincipleBeams_Cost_per_Meter = costPerMeter_Sq;
+	HorizontalBeams_Cost_per_Meter = costPerMeter_L;
+	DiagonalBeams_Cost_per_Meter = costPerMeter_L;
 
 	// Get the root component of the active design
 	rootComp = design->rootComponent();
@@ -38,7 +42,7 @@ bool drawTankStand(Ptr<Design> design, string material, double tankHead, double 
 
 	int i = 0;
 	double deviation = 0.0;
-	tankHead = tankHead * 10;
+	tankHead = 2000 * 10;
 	tankDiameter = pow((tankCapacity / (3.145167 * 2)), 0.5);
 	calculatePriciplePositions();
 	//+-----------------------------------------------+
@@ -49,19 +53,7 @@ bool drawTankStand(Ptr<Design> design, string material, double tankHead, double 
 		drawRBeam(i, 0, 0, thickness);
 		extrudeComponent(i, tankHead);
 		i++;
-	}
-	//+-----------------------------------------------+
-	//Draw Tank platform beams                        |
-	//+-----------------------------------------------+
-	deviation = tankDiameter / (uBeamsCount + 1);
-	for (int count = 0; count < 2; count++)
-	{
-		for (int c = 0; c < uBeamsCount; c++)
-		{
-			drawUBeam(count, i, (c + 1), 0, 0, thickness, width, tankHead, deviation);
-			extrudeComponent(i, (tankDiameter * 10) + (80));
-			i++;
-		}
+		PrincipleBeams_Length = PrincipleBeams_Length + 6096;
 	}
 	//+-----------------------------------------------+
 	//     Draw structure support beams               |
@@ -76,6 +68,7 @@ bool drawTankStand(Ptr<Design> design, string material, double tankHead, double 
 			drawHorizontal(count, i, 0, deviation, width, thickness, b);
 			extrudeComponent(i, tankDiameter * 10 + 80);
 			i++;
+			HorizontalBeams_Length = HorizontalBeams_Length + 1550;
 		}
 	}
 	//+-----------------------------------------------+
@@ -86,40 +79,40 @@ bool drawTankStand(Ptr<Design> design, string material, double tankHead, double 
 	double a = pow(height, 2);
 	double b = pow((tankDiameter * 10), 2);
 	double extrusionLength = pow((a + b), 0.5) + 40;
-	SlantAngle = atan(height / (tankDiameter * 10)); //in degrees
-	//ui->messageBox("Angle :" + to_string(SlantAngle) + "\nDiameter :" + to_string(tankDiameter * 10)
-	//	+ "\nHeight :" + to_string(height) + "\nExtrusion :" + to_string(extrusionLength));
+	SlantAngle = atan(height / (tankDiameter * 10 + 40)); //in degrees
 
 	for (int e = 1; e < (supportCount + 1); e++)
 	{
 		for (int count = 0; count < 8; count++)
 		{
-			drawDiagonal(count, i, 0, deviation, width, thickness, extrusionLength, e);
+			drawDiagonal(count, i, 0, deviation, width,
+			 thickness, extrusionLength, e);
+			DiagonalBeams_Length = DiagonalBeams_Length + 
+			pow((pow(6096, 2) + pow(1550, 2)), 0.5);
 			i++;
 		}
 	}
+
+	CalculateCost();
+
 	//+-----------------------------------------------+
 	// Document the CSV file                          |
 	//+-----------------------------------------------+	
 	int csv_count = 1;
-	Write(1345.6, "Steel", "Salty", 20.0, 0, " ", 0, 0, 0, 0, " ", false);
+	Write(2500, 6.096, " ", 0, 0, 0, 0, " ", 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
 
-	for (size_t i = 0; i < PrincipleBeams; i++)
-	{
-		Write(0.0, " ", " ", 0.0, csv_count, "RectangularTube", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
-		csv_count++;
-	}
-	for (size_t i = 0; i < supportCount; i++)
-	{
-		Write(0.0, " ", " ", 0.0, csv_count, "UType", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
-		csv_count++;
-	}
-	for (size_t i = 0; i < supportCount; i++)
-	{
-		Write(0.0, " ", " ", 0.0, csv_count, "LType", (i + 2), (i * 2.78), (i * 0.65), 1, "Ubeam for supporting columns", false);
-		csv_count++;
-	}
-	Write(0.0, " ", " ", 0.0, 0, " ", 0, 0, 0, 0, " ", true);
+	Write(0.0, 0.0, "RectangularTube", 4, 50, 50, 2,
+	 "Principle Columns", 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+	Write(0.0, 0.0, "Angle Line", 4*3, 25, 25, 3,
+	 "Horizontal braces", 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+	Write(0.0, 0.0, "Angle Line", 2*4*3, 25, 25, 3,
+	 "Diagonal struts", 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+
+	Write(0.0, 0.0, " ", 0, 0, 0, 0, " ", PrincipleBeams_Length, 
+	PrincipleBeams_Cost_per_Meter, PrincipleBeams_Cost,
+		HorizontalBeams_Length, HorizontalBeams_Cost_per_Meter, 
+		HorizontalBeams_Cost,DiagonalBeams_Length, DiagonalBeams_Cost_per_Meter,
+		 DiagonalBeams_Cost, true);
 
 	return true;
 }

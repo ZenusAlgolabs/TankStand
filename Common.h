@@ -21,15 +21,10 @@ Ptr<UserInterface> ui;
 std::string units = "m";
 
 // Global command input declarations.
-Ptr<DropDownCommandInput> _waterQuality;
-Ptr<DropDownCommandInput> _structureMaterial;
-Ptr<DropDownCommandInput> _fluidType;
 Ptr<ValueCommandInput> _tankCapacity;
 Ptr<ValueCommandInput> _tankHead;
-Ptr<ValueCommandInput> _fluidDensity;
 Ptr<ValueCommandInput> _costPerMeter_Sq;
 Ptr<ValueCommandInput> _costPerMeter_L;
-Ptr<ValueCommandInput> _costPerMeter_U;
 
 Ptr<TextBoxCommandInput> _errMessage;
 Ptr<ImageCommandInput> _imgInput;
@@ -52,8 +47,7 @@ Ptr<ConstructionPlane> constructionPlane;
 double beamSize = 4;
 float SlantAngle = 0.0;
 int PrincipleBeams = 4;
-int uBeamsCount = 3;
-int supportCount = 2;
+int supportCount = 3;
 double tankDiameter = 0.0;
 double width = 4;
 double thickness = 1;
@@ -88,7 +82,8 @@ void displayErrorMessage(std::string section)
 	// get error message
 	std::string errorMessage;
 	int errorCode = app->getLastError(&errorMessage);
-	if (GenericErrors::Ok != errorCode)  ui->messageBox(section + ": " + errorMessage);
+	if (GenericErrors::Ok != errorCode)  ui->messageBox(section + ": "
+	 + errorMessage);
 }
 
 bool getEndFace(int refID)
@@ -109,14 +104,16 @@ bool getConstructionPlane(int ID, int refID)
 	}
 	else
 	{
-		Ptr<ConstructionPlanes> ctorPlanes = subComponent[refID]->constructionPlanes();
+		Ptr<ConstructionPlanes> ctorPlanes = 
+		subComponent[refID]->constructionPlanes();
 		if (!ctorPlanes)return false;
 		Ptr<ConstructionPlaneInput> ctorPlaneInput = ctorPlanes->createInput();
 		if (!ctorPlaneInput)return false;
 		getEndFace(refID);
 		Ptr<ConstructionPlane> ctorPlane = ctorPlanes->add(ctorPlaneInput);
 		if (!ctorPlane)return false;
-		constructionPlane = ctorPlane->createForAssemblyContext(subOccurrence[refID]);
+		constructionPlane = ctorPlane->createForAssemblyContext(
+			subOccurrence[refID]);
 		if (!constructionPlane)return false;
 	}
 }
@@ -144,47 +141,25 @@ bool Sketch_LBeam(int ID, int refID)
 	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
 	if (!sketchLines)return false;
 
-	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(Point3D::create(x_1, y_1, z_1), Point3D::create(x_2, y_2, z_2));
+	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(
+		Point3D::create(x_1, y_1, z_1), Point3D::create(x_2, y_2, z_2));
 	if (!line1)return false;
-	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(), Point3D::create(x_3, y_3, z_3));
+	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(
+		line1->endSketchPoint(), Point3D::create(x_3, y_3, z_3));
 	if (!line2)return false;
-	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(), Point3D::create(x_4, y_4, z_4));
+	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(
+		line2->endSketchPoint(), Point3D::create(x_4, y_4, z_4));
 	if (!line3)return false;
-	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(), Point3D::create(x_5, y_5, z_5));
+	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(
+		line3->endSketchPoint(), Point3D::create(x_5, y_5, z_5));
 	if (!line4)return false;
-	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(), Point3D::create(x_6, y_6, z_6));
+	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(
+		line4->endSketchPoint(), Point3D::create(x_6, y_6, z_6));
 	if (!line5)return false;
-	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(), line1->startSketchPoint());
+	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(
+		line5->endSketchPoint(), line1->startSketchPoint());
 	if (!line6)return false;
 	return true;
-}
-
-bool Sketch_UBeam(int ID, int refID)
-{
-	getConstructionPlane(ID, refID);
-	getSubOccurrence(ID);
-
-	// Draw two connected lines. 
-	Ptr<SketchCurves> sketchCurves = (sketch[ID]->sketchCurves());
-	if (!sketchCurves)return false;
-	Ptr<SketchLines> sketchLines = sketchCurves->sketchLines();
-	if (!sketchLines)return false;
-	Ptr<SketchLine> line1 = sketchLines->addByTwoPoints(Point3D::create(x_1, y_1, z_1), Point3D::create(x_2, y_2, z_2));
-	if (!line1)return false;
-	Ptr<SketchLine> line2 = sketchLines->addByTwoPoints(line1->endSketchPoint(), Point3D::create(x_3, y_3, z_3));
-	if (!line2)	return false;
-	Ptr<SketchLine> line3 = sketchLines->addByTwoPoints(line2->endSketchPoint(), Point3D::create(x_4, y_4, z_4));
-	if (!line3)return false;
-	Ptr<SketchLine> line4 = sketchLines->addByTwoPoints(line3->endSketchPoint(), Point3D::create(x_5, y_5, z_5));
-	if (!line4)return false;
-	Ptr<SketchLine> line5 = sketchLines->addByTwoPoints(line4->endSketchPoint(), Point3D::create(x_6, y_6, z_6));
-	if (!line5)return false;
-	Ptr<SketchLine> line6 = sketchLines->addByTwoPoints(line5->endSketchPoint(), Point3D::create(x_7, y_7, z_7));
-	if (!line6)return false;
-	Ptr<SketchLine> line7 = sketchLines->addByTwoPoints(line6->endSketchPoint(), Point3D::create(x_8, y_8, z_8));
-	if (!line7)return false;
-	Ptr<SketchLine> line8 = sketchLines->addByTwoPoints(line7->endSketchPoint(), line1->startSketchPoint());
-	if (!line8)return false;
 }
 
 bool extrudeComponent(int ID, double _extrusionLength)
@@ -215,14 +190,17 @@ bool extrudeComponent(int ID, double _extrusionLength)
 		displayErrorMessage("extrude features");
 		return false;
 	}
-	Ptr<ExtrudeFeatureInput> extrudeFeatureInput = (extrudeFeatures->createInput(profile, FeatureOperations::NewBodyFeatureOperation));
+	Ptr<ExtrudeFeatureInput> extrudeFeatureInput = (
+		extrudeFeatures->createInput(profile, 
+		FeatureOperations::NewBodyFeatureOperation));
 	if (!extrudeFeatureInput)
 	{
 		displayErrorMessage(std::to_string(ID) + "ex-features input");
 		return false;
 	}
 	// Set the extrude input
-	Ptr<ValueInput> extrusionDistance = (ValueInput::createByString(std::to_string(_extrusionLength) + " mm"));
+	Ptr<ValueInput> extrusionDistance = (ValueInput::createByString(
+		std::to_string(_extrusionLength) + " mm"));
 	if (!extrusionDistance)
 	{
 		displayErrorMessage("ex-distance");
